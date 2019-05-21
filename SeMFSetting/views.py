@@ -1,14 +1,15 @@
-#coding:utf-8
+# coding:utf-8
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-import hashlib 
-from django.contrib.auth.hashers import make_password 
+import hashlib
+from django.contrib.auth.hashers import make_password
+
+
 # Create your views here.
 
-#该段代码用来分页
-def paging(deploy_list,limit,offset):
-    
+# 该段代码用来分页
+def paging(deploy_list, limit, offset):
     paginator = Paginator(deploy_list, limit)
-    
+
     try:
         deploy_list = paginator.page(offset)
     except PageNotAnInteger:
@@ -18,7 +19,6 @@ def paging(deploy_list,limit,offset):
         # If page is out of range (e.g. 9999), deliver last page of results.
         deploy_list = paginator.page(paginator.num_pages)
     return deploy_list
-
 
 
 def strtopsd(string):

@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class SemfsettingConfig(AppConfig):
+class SemfSettingConfig(AppConfig):
     name = 'SeMFSetting'

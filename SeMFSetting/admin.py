@@ -1,6 +1,9 @@
-#coding:utf-8
+#! /usr/bin/python3
+# -*- coding:UTF-8 -*-
+
 from django.contrib import admin
 from . import models
+
 # Register your models here.
 admin.site.register(models.Scanner)
 admin.site.register(models.ScannerPolicies)

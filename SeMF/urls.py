@@ -1,3 +1,6 @@
+#! /usr/bin/python3
+# -*- coding:UTF-8 -*-
+
 """SeMF URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -13,6 +16,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
@@ -21,17 +25,17 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('semf/', admin.site.urls),
-    path('',include('RBAC.urls')),
-    path('notice/',include('NoticeManage.urls')),
-    path('asset/',include('AssetManage.urls')),
-    path('vuln/',include('VulnManage.urls')),
-    path('chart/',include('ChartManage.urls')),
-    path('article/',include('ArticleManage.urls')),
-    path('mapped/',include('MappedManage.urls')),
-    path('task/',include('TaskManage.urls')),
-]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
-    
+                  path('semf/', admin.site.urls),
+                  path('', include('RBAC.urls')),
+                  path('notice/', include('NoticeManage.urls')),
+                  path('asset/', include('AssetManage.urls')),
+                  path('vuln/', include('VulnManage.urls')),
+                  path('chart/', include('ChartManage.urls')),
+                  path('article/', include('ArticleManage.urls')),
+                  path('mapped/', include('MappedManage.urls')),
+                  path('task/', include('TaskManage.urls')),
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 handler404 = views.page_not_found
 handler500 = views.page_error
 handler403 = views.permission_denied

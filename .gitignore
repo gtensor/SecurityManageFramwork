@@ -6,6 +6,8 @@ db.sqlite3
 *_initial.py
 # C extensions
 *.so
+*.pyc
+
 
 # Distribution / packaging
 .Python
@@ -102,3 +104,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# idea
+.idea/
