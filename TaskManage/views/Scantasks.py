@@ -6,13 +6,15 @@ Created on 2018年5月25日
 @author: yuguanc
 """
 
-from django.shortcuts import render
+import time
+
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_protect
+
+from AssetManage.models import Asset
 from .. import models, forms
 from ..Functions import nessus, awvs
-from AssetManage.models import Asset
-import time
 from ..tasks import save_scan_vulns, save_awvs_vulns
 
 
