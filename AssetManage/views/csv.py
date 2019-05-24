@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 import csv, codecs, uuid, os, time
 from django.contrib.auth.models import User
-from AssetManage.models import Asset, AssetType, OS_Info, Internet_Info
+from AssetManage.models import Asset, AssetType, OS_Info, InternetInfo
 from VulnManage.models import Vulnerability_scan
 from SeMFSetting import forms
 from SeMF.settings import MEDIA_ROOT
@@ -166,8 +166,8 @@ def web_asset_upload(user_id, file_psth, name):
                 out_key = row[7]
                 language = row[8]
                 language_version = row[9]
-                web_framwork = row[10]
-                web_framwork_version = row[11]
+                web_framework = row[10]
+                web_framework_version = row[11]
 
                 asset_type = AssetType.objects.filter(name=asset_type).first()
                 if asset_type:
@@ -189,15 +189,15 @@ def web_asset_upload(user_id, file_psth, name):
                     try:
                         internet_info = asset.internet_for_asset
                     except:
-                        internet_info = Internet_Info.objects.get_or_create(asset=asset)
+                        internet_info = InternetInfo.objects.get_or_create(asset=asset)
                         internet_info = internet_info[0]
                     internet_info.middleware = middleware
                     internet_info.middleware_version = middleware_version
                     internet_info.out_key = out_key
                     internet_info.language = language
                     internet_info.language_version = language_version
-                    internet_info.web_framwork = web_framwork
-                    internet_info.web_framwork_version = web_framwork_version
+                    internet_info.web_framework = web_framework
+                    internet_info.web_framework_version = web_framework_version
                     internet_info.save()
                 else:
                     data_manage = {

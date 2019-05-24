@@ -16,9 +16,9 @@ from django.contrib.auth.models import User
 from AssetManage import models
 from NoticeManage.views import notice_add
 from SeMFSetting.Functions import nmap
+from SeMFSetting.Functions.checkip import checkip
 
 logger = get_task_logger(__name__)
-from SeMFSetting.Functions.checkip import checkip
 
 
 @shared_task

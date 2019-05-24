@@ -109,3 +109,10 @@ venv.bak/
 .idea/
 
 */*.xml
+
+# django migration
+AssetManage/migrations/*.py
+
+# uploads 
+files/*
+

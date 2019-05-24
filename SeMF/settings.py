@@ -75,7 +75,7 @@ SERVER_EMAIL = 'xxxxx'
 DEFAULT_FROM_EMAIL = '安全管控平台<Se@outlook.com>'
 
 # 设置队列存储
-#BROKER_URL = 'amqp://user:psd@xx.xx.xx.xx/vhost'  # 设置与rabbitmq一致
+# BROKER_URL = 'amqp://user:psd@xx.xx.xx.xx/vhost'  # 设置与rabbitmq一致
 
 # redis
 CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']

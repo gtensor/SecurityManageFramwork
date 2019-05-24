@@ -91,7 +91,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Internet_Info',
+            name='InternetInfo',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('middleware', models.CharField(blank=True, max_length=50, null=True, verbose_name='中间件')),

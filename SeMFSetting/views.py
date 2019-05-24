@@ -1,7 +1,8 @@
 # coding:utf-8
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import hashlib
+
 from django.contrib.auth.hashers import make_password
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.

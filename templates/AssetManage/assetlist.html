@@ -38,36 +38,41 @@
                 </form>
             </div>
             <div class='UserTable'>
-                <button class="layui-btn" data-type="reload"><i class="layui-icon">&#xe615;</i></button>
+                <button class="layui-btn" data-type="reload"><i class="layui-icon">&#xe615;</i>查询</button>
             </div>
         </div>
 
         <xblock>
             <div class="UserTable layui-row">
-                <div class='layui-col-md10'>
-                    <button class="layui-btn " data-type="deletechoice"><i class="layui-icon">&#xe640;</i>删除资产</button>
-                    <button class="layui-btn" onclick="x_admin_show('资产申请','{% url 'assetrequest' %}',600)"><i
-                            class="layui-icon layui-icon-download-circle"> </i>资产申请
-                    </button>
+                <div class='layui-col-md9'>
                     <button class="layui-btn" onclick="x_admin_show('添加资产','{% url 'assetcreate' %}',600)"><i
                             class="layui-icon"></i>新增资产
                     </button>
+                    <button class="layui-btn" onclick="x_admin_show('资产申请','{% url 'assetrequest' %}',600)"><i
+                            class="layui-icon layui-icon-download-circle"> </i>资产申请
+                    </button>
+                    <button class="layui-btn " data-type="deletechoice"><i class="layui-icon">&#xe640;</i>删除资产</button>
                     <button class="layui-btn" onclick="x_admin_show('批量导入','{% url 'createuploadcsv' %}',600,400)"><i
                             class="layui-icon">&#xe681;</i>批量导入
                     </button>
+                </div>
+                <div class='layui-col-md3' align='right'>
+                        <a href="{% url 'createoscsv' %}" class="layui-btn layui-btn-sm layui-btn-warm">os_csv模板</a>
+                        <a href="{% url 'createwebcsv' %}" class="layui-btn layui-btn-sm layui-btn-warm">web_csv模板</a>
+                        <a href="{% url 'createvulncsv' %}" class="layui-btn layui-btn-sm layui-btn-warm">vuln_csv模板</a>
+                </div>
+            </div>
+        </xblock>
+
+        <xblock>
+            <div class="UserTable layui-row">
+                <div class='layui-col-md10'>
                     <button class="layui-btn" data-type="portchoice"><i class="layui-icon">&#xe666;</i>端口扫描</button>
                     <button class="layui-btn" data-type="scanchoice"><i class="layui-icon">&#xe672;</i>安全扫描</button>
                     {% if user.is_superuser %}
-                        <button class="layui-btn " data-type="descoverchoice"><i class="layui-icon">&#xe628;</i>资产发现
-                        </button>
-                        <button class="layui-btn " data-type="assetuserchoice"><i class="layui-icon">&#xe601;</i>资产指定
-                        </button>
+                        <button class="layui-btn " data-type="descoverchoice"><i class="layui-icon">&#xe628;</i>资产发现</button>
+{#                        <button class="layui-btn " data-type="assetuserchoice"><i class="layui-icon">&#xe601;</i>资产指定</button>#}
                     {% endif %}
-                </div>
-                <div class='layui-col-md2' align='right'>
-                    <div><a href="{% url 'createoscsv' %}">os_csv模板</a>&<a href="{% url 'createwebcsv' %}">web_csv模板</a>
-                    </div>
-                    <div><a href="{% url 'createvulncsv' %}">vuln_csv模板</a></div>
                 </div>
             </div>
         </xblock>

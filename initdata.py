@@ -1,7 +1,8 @@
 #! /usr/bin/python3
 # -*- coding:UTF-8 -*-
 
-import django, os
+import django
+import os
 
 
 def initmenu():

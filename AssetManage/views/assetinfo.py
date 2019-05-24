@@ -39,17 +39,17 @@ def internetinfpupdate(request, internet_id):
     user = request.user
     error = ''
     if user.is_superuser:
-        internetinfo = get_object_or_404(models.Internet_Info, id=internet_id)
+        internetinfo = get_object_or_404(models.InternetInfo, id=internet_id)
     else:
-        internetinfo = get_object_or_404(models.Internet_Info, asset__asset_user=user, id=internet_id)
+        internetinfo = get_object_or_404(models.InternetInfo, asset__asset_user=user, id=internet_id)
     if request.method == 'POST':
-        form = forms.Internet_Info_form(request.POST, instance=internetinfo)
+        form = forms.InternetInfoForm(request.POST, instance=internetinfo)
         if form.is_valid():
             form.save()
             error = '信息已更新'
         else:
             error = '请检查输入'
     else:
-        form = forms.Internet_Info_form(instance=internetinfo)
+        form = forms.InternetInfoForm(instance=internetinfo)
     return render(request, 'formupdate.html',
                   {'form': form, 'post_url': 'assetinternetinfoupdate', 'argu': internet_id, 'error': error})

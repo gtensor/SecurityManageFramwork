@@ -52,7 +52,8 @@ def assetdetailsview(request, asset_id):
     if 'os' in info:
         try:
             os_info = asset.os_for_asset
-        except:
+        except Exception as e:
+
             models.OS_Info.objects.get_or_create(asset=asset)
             os_info = asset.os_for_asset
     else:
@@ -62,7 +63,7 @@ def assetdetailsview(request, asset_id):
         try:
             internet_info = asset.internet_for_asset
         except:
-            internet_info = models.Internet_Info.objects.get_or_create(asset=asset)
+            internet_info = models.InternetInfo.objects.get_or_create(asset=asset)
             internet_info = internet_info[0]
     else:
         internet_info = ''
