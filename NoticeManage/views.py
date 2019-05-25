@@ -131,18 +131,19 @@ def notice_add(user, data):
     notice_type = data.get('notice_type')
     notice_url = data.get('notice_url')
 
-    notice_body = notice_body
-
-    res = models.Notice.objects.get_or_create(
+    res = models.Notice.objects.create(
         notice_title=notice_title,
         notice_body=notice_body,
         notice_type=notice_type,
         notice_url=notice_url,
         notice_user=user,
     )
-    if res[1]:
-        return False
-    else:
-        res[0].notice_status = False
-        res[0].save()
-        return True
+    res.notice_status = False
+    res.save()
+    return True
+    # if res[1]:
+    #     return False
+    # else:
+    #     res[0].notice_status = False
+    #     res[0].save()
+    #     return True

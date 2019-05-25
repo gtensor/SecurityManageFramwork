@@ -27,7 +27,7 @@ def plugincreate(request, asset_id):
             name = form.cleaned_data['name']
             version = form.cleaned_data['version']
             plugin_info = form.cleaned_data['plugin_info']
-            models.Plugin_Info.objects.get_or_create(
+            models.PluginInfo.objects.get_or_create(
                 name=name,
                 version=version,
                 plugin_info=plugin_info,
@@ -48,9 +48,9 @@ def pluginupdate(request, plugin_id):
     user = request.user
     error = ''
     if user.is_superuser:
-        plugin = get_object_or_404(models.Plugin_Info, id=plugin_id)
+        plugin = get_object_or_404(models.PluginInfo, id=plugin_id)
     else:
-        plugin = get_object_or_404(models.Plugin_Info, asset__asset_user=user, id=plugin_id)
+        plugin = get_object_or_404(models.PluginInfo, asset__asset_user=user, id=plugin_id)
     if request.method == 'POST':
         form = forms.Asset_plugin_info(request.POST, instance=plugin)
         if form.is_valid():
@@ -69,9 +69,9 @@ def plugindelete(request, plugin_id):
     user = request.user
     error = ''
     if user.is_superuser:
-        plugin = get_object_or_404(models.Plugin_Info, id=plugin_id)
+        plugin = get_object_or_404(models.PluginInfo, id=plugin_id)
     else:
-        plugin = get_object_or_404(models.Plugin_Info, asset__asset_user=user, id=plugin_id)
+        plugin = get_object_or_404(models.PluginInfo, asset__asset_user=user, id=plugin_id)
     if plugin:
         plugin.delete()
         error = '删除成功'

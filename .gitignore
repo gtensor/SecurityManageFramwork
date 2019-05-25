@@ -110,9 +110,6 @@ venv.bak/
 
 */*.xml
 
-# django migration
-AssetManage/migrations/*.py
 
 # uploads 
 files/*
-

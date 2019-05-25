@@ -56,7 +56,7 @@ def MappedCreate(request):
                 LANPort = int(LANPort)
             except:
                 error = '请检查输入'
-            LANPort = models.Port_Info.objects.get_or_create(asset=LANip, port=LANPort)
+            LANPort = models.PortInfo.objects.get_or_create(asset=LANip, port=LANPort)
             LANPort = LANPort[0]
 
             WANip = form.cleaned_data['WANip']
@@ -67,7 +67,7 @@ def MappedCreate(request):
                 WANPort = int(WANPort)
             except:
                 error = '请检查输入'
-            WANPort = models.Port_Info.objects.get_or_create(asset=WANip, port=WANPort)
+            WANPort = models.PortInfo.objects.get_or_create(asset=WANip, port=WANPort)
             WANPort = WANPort[0]
 
             if error == '':

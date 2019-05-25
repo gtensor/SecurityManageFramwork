@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 import csv, codecs, uuid, os, time
 from django.contrib.auth.models import User
-from AssetManage.models import Asset, AssetType, OS_Info, InternetInfo
+from AssetManage.models import Asset, AssetType, OSInfo, InternetInfo
 from VulnManage.models import Vulnerability_scan
 from SeMFSetting import forms
 from SeMF.settings import MEDIA_ROOT
@@ -123,7 +123,7 @@ def os_asset_upload(user_id, file_psth, name):
                     try:
                         os_info = asset.os_for_asset
                     except:
-                        OS_Info.objects.get_or_create(asset=asset)
+                        OSInfo.objects.get_or_create(asset=asset)
                         os_info = asset.os_for_asset
                     os_info.os = os
                     os_info.cpu_model = cpu_model

@@ -83,7 +83,7 @@ def asset_handover_list(request):
         handover_list = models.Handover.objects.filter(status__in=status).filter(
             Q(dst_email__icontains=email) |
             Q(request_user__icontains=email)
-        ).order_by('status', '-request_starttime')
+        ).order_by('status', '-request_start_time')
 
         total = handover_list.count()
         handover_list = paging(handover_list, rows, page)
@@ -95,7 +95,7 @@ def asset_handover_list(request):
             dic['dst_email'] = escape(handover.dst_email)
             dic['reason'] = escape(handover.reason)
             dic['status'] = escape(REQUEST_STATUS[handover.status])
-            dic['request_updatetime'] = escape(handover.request_updatetime)
+            dic['request_update_time'] = escape(handover.request_update_time)
             data.append(dic)
         resultdict['code'] = 0
         resultdict['msg'] = "端口列表"

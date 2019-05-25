@@ -71,7 +71,7 @@ class AssetRequest_edit_form(ModelForm):
 
 class Asset_port_info(ModelForm):
     class Meta:
-        model = models.Port_Info
+        model = models.PortInfo
         fields = ['port', 'name', 'product', 'version', 'port_info']
         widgets = {
             'name': widgets.TextInput(attrs={'class': 'form-control', 'placeholder': '服务名称'}),
@@ -84,7 +84,7 @@ class Asset_port_info(ModelForm):
 
 class Asset_plugin_info(ModelForm):
     class Meta:
-        model = models.Plugin_Info
+        model = models.PluginInfo
         fields = ['name', 'version', 'plugin_info']
         widgets = {
             'name': widgets.TextInput(attrs={'class': 'form-control', 'placeholder': '插件名称'}),
@@ -111,7 +111,7 @@ class Asset_connect_form(forms.Form):
 
 class OS_Info_form(ModelForm):
     class Meta:
-        model = models.OS_Info
+        model = models.OSInfo
         fields = ['hostname', 'os', 'cpu_model', 'cpu_num', 'memory', 'disk', 'monitor', 'vendor', 'sn', 'cabinet',
                   'up_time', 'guarante_time', 'down_time']
         widgets = {

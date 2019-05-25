@@ -54,7 +54,7 @@ def assetdetailsview(request, asset_id):
             os_info = asset.os_for_asset
         except Exception as e:
 
-            models.OS_Info.objects.get_or_create(asset=asset)
+            models.OSInfo.objects.get_or_create(asset=asset)
             os_info = asset.os_for_asset
     else:
         os_info = ''
@@ -85,7 +85,7 @@ def asset_ports(request, asset_id):
         asset = get_object_or_404(models.Asset, asset_id=asset_id)
     else:
         asset = get_object_or_404(models.Asset, asset_user=user, asset_id=asset_id)
-    port_list = asset.port_for_asset.all().order_by('-updatetime')
+    port_list = asset.port_for_asset.all().order_by('-update_time')
     total = port_list.count()
     # port_list = paging(port_list,rows,page)
     data = []
@@ -96,7 +96,7 @@ def asset_ports(request, asset_id):
         dic['product'] = escape(port.product)
         dic['version'] = escape(port.version)
         dic['port_info'] = escape(port.port_info)
-        dic['updatetime'] = escape(port.updatetime)
+        dic['update_time'] = escape(port.update_time)
         data.append(dic)
     resultdict['code'] = 0
     resultdict['msg'] = "端口列表"
@@ -152,7 +152,7 @@ def asset_plugin(request, asset_id):
         asset = get_object_or_404(models.Asset, asset_id=asset_id)
     else:
         asset = get_object_or_404(models.Asset, asset_user=user, asset_id=asset_id)
-    plugin_list = asset.plugin_for_asset.all().order_by('-updatetime')
+    plugin_list = asset.plugin_for_asset.all().order_by('-update_time')
     total = plugin_list.count()
     # plugin_list = paging(plugin_list,rows,page)
     data = []
@@ -162,7 +162,7 @@ def asset_plugin(request, asset_id):
         dic['name'] = escape(plugin.name)
         dic['version'] = escape(plugin.version)
         dic['plugin_info'] = escape(plugin.plugin_info)
-        dic['updatetime'] = escape(plugin.updatetime)
+        dic['update_time'] = escape(plugin.updatetime)
         data.append(dic)
     resultdict['code'] = 0
     resultdict['msg'] = "端口列表"
@@ -183,7 +183,7 @@ def asset_file(request, asset_id):
         asset = get_object_or_404(models.Asset, asset_id=asset_id)
     else:
         asset = get_object_or_404(models.Asset, asset_user=user, asset_id=asset_id)
-    file_list = asset.file_for_asset.all().order_by('-updatetime')
+    file_list = asset.file_for_asset.all().order_by('-update_time')
     total = file_list.count()
     # file_list = paging(file_list,rows,page)
     data = []
@@ -193,7 +193,7 @@ def asset_file(request, asset_id):
         dic['name'] = escape(file.name)
         dic['file'] = escape('/uploads/' + str(file.file))
         dic['file_info'] = escape(file.file_info)
-        dic['updatetime'] = escape(file.updatetime)
+        dic['update_time'] = escape(file.updatetime)
         data.append(dic)
     resultdict['code'] = 0
     resultdict['msg'] = "端口列表"
@@ -214,7 +214,7 @@ def asset_asset(request, asset_id):
         asset = get_object_or_404(models.Asset, asset_id=asset_id)
     else:
         asset = get_object_or_404(models.Asset, asset_user=user, asset_id=asset_id)
-    assetconnect_list = asset.asset_connect.all().order_by('-asset_updatetime')
+    assetconnect_list = asset.asset_connect.all().order_by('-asset_update_time')
     total = assetconnect_list.count()
     # assetconnect_list = paging(assetconnect_list,rows,page)
     data = []
@@ -234,7 +234,7 @@ def asset_asset(request, asset_id):
             dic['asset_type'] = escape('未分类')
         dic['user_email'] = escape(assetconnect.user_email)
         dic['asset_score'] = escape(assetconnect.asset_score)
-        dic['asset_updatetime'] = escape(assetconnect.asset_updatetime)
+        dic['asset_update_time'] = escape(assetconnect.asset_updatetime)
         data.append(dic)
     resultdict['code'] = 0
     resultdict['msg'] = "端口列表"

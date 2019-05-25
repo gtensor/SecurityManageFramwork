@@ -22,8 +22,8 @@ class Handover(models.Model):
     status = models.CharField('申请状态', max_length=30, choices=ASSET_REQUEST_STATUS, default='0')
     reason = models.TextField('转让说明')
     action_reason = models.TextField('审批说明')
-    request_starttime = models.DateField('添加时间', auto_now_add=True)
-    request_updatetime = models.DateField('更新时间', auto_now=True)
+    request_start_time = models.DateField('添加时间', auto_now_add=True)
+    request_update_time = models.DateField('更新时间', auto_now=True)
 
     request_user = models.EmailField('申请账号')
 
@@ -71,8 +71,8 @@ class Asset(models.Model):
     asset_status = models.CharField('资产状态', max_length=50, choices=ASSET_STATUS, default='0')
     asset_check = models.BooleanField('是否检查', default=False)
     asset_inuse = models.BooleanField('是否认领', default=False)
-    asset_starttime = models.DateTimeField('添加时间', auto_now_add=True)
-    asset_updatetime = models.DateTimeField('更新时间', auto_now=True)
+    asset_start_time = models.DateTimeField('添加时间', auto_now_add=True)
+    asset_update_time = models.DateTimeField('更新时间', auto_now=True)
 
     user_email = models.EmailField('联系人邮箱', null=True, blank=True)
 
@@ -94,8 +94,8 @@ class AssetRequest(models.Model):
     request_action = models.CharField('操作类型', max_length=30, choices=ASSET_REQUEST_ACTION)
     request_reason = models.TextField('申请理由', null=True)
     request_note = models.TextField('审批备注', null=True)
-    request_starttime = models.DateTimeField('添加时间', auto_now_add=True)
-    request_updatetime = models.DateTimeField('更新时间', auto_now=True)
+    request_start_time = models.DateTimeField('添加时间', auto_now_add=True)
+    request_update_time = models.DateTimeField('更新时间', auto_now=True)
 
     request_user = models.ForeignKey(User, related_name='assetrequest_for_user', on_delete=models.CASCADE)
     asset_type = models.ForeignKey(AssetType, related_name='type_for_assetrequest', verbose_name='资产类型',
@@ -129,7 +129,7 @@ WEB_STATUS = (
 )
 
 
-class OS_Info(models.Model):
+class OSInfo(models.Model):
     hostname = models.CharField(max_length=50, verbose_name="主机名")
     os = models.CharField("操作系统", max_length=100, blank=True)
     vendor = models.CharField("设备厂商", max_length=50, blank=True)
@@ -144,7 +144,7 @@ class OS_Info(models.Model):
     up_time = models.DateField("上架时间", null=True)
     guarante_time = models.DateField("保修时间", null=True)
     down_time = models.DateField("停用时间", null=True)
-    updatetime = models.DateField('更新时间', auto_now=True)
+    update_time = models.DateField('更新时间', auto_now=True)
 
     asset = models.OneToOneField(Asset, related_name='os_for_asset', on_delete=models.CASCADE)
 
@@ -170,13 +170,13 @@ class InternetInfo(models.Model):
         return self.asset.asset_key
 
 
-class Port_Info(models.Model):
+class PortInfo(models.Model):
     port = models.CharField('开放端口', max_length=50)
     name = models.CharField('服务名称', max_length=50, null=True)
     product = models.CharField('产品信息', max_length=100, null=True)
     version = models.CharField('应用版本', max_length=50, null=True)
     port_info = models.TextField('端口介绍', null=True)
-    updatetime = models.DateField('更新时间', auto_now=True)
+    update_time = models.DateField('更新时间', auto_now=True)
 
     asset = models.ForeignKey(Asset, related_name='port_for_asset', on_delete=models.CASCADE)
 
@@ -184,12 +184,12 @@ class Port_Info(models.Model):
         return self.port
 
 
-class Plugin_Info(models.Model):
+class PluginInfo(models.Model):
     name = models.CharField('组件名称', max_length=50)
     version = models.CharField('应用版本', max_length=50, null=True)
     plugin_info = models.TextField('组件简介', null=True)
-    starttime = models.DateTimeField('添加时间', auto_now_add=True)
-    updatetime = models.DateField('更新时间', auto_now=True)
+    star_time = models.DateTimeField('添加时间', auto_now_add=True)
+    update_time = models.DateField('更新时间', auto_now=True)
 
     asset = models.ForeignKey(Asset, related_name='plugin_for_asset', on_delete=models.CASCADE)
 
@@ -201,7 +201,7 @@ class File(models.Model):
     name = models.CharField('附件名称', max_length=50)
     file = models.FileField('附件内容', upload_to='assetfiles/%Y/%m/%d/')
     file_info = models.TextField('附件说明', null=True)
-    updatetime = models.DateField('更新时间', auto_now=True)
+    update_time = models.DateField('更新时间', auto_now=True)
 
     asset = models.ForeignKey(Asset, related_name='file_for_asset', on_delete=models.CASCADE)
 
@@ -213,7 +213,7 @@ class AssetUser(models.Model):
     dst_user_email = models.EmailField('目标账号')
     reason = models.TextField('指定说明')
     asset_list = models.TextField('资产列表')
-    request_updatetime = models.DateField('更新时间', auto_now=True)
+    request_update_time = models.DateField('更新时间', auto_now=True)
 
     action_user = models.ForeignKey(User, related_name='assetuser_action_user', on_delete=models.CASCADE, null=True,
                                     blank=True)

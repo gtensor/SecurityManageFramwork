@@ -30,7 +30,7 @@ def task_action(request):
             tasks.asset_port.delay(user.id, asset_id_list)
             error = '任务已提交'
         elif action == 'segment':
-            tasks.asset_descover.delay(user.id, asset_id_list)
+            tasks.asset_discover.delay(user.id, asset_id_list)
             error = '任务已提交'
         else:
             error = '参数错误'

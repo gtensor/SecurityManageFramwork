@@ -28,7 +28,7 @@ def portcreate(request, asset_id):
             product = form.cleaned_data['product']
             version = form.cleaned_data['version']
             port_info = form.cleaned_data['port_info']
-            models.Port_Info.objects.get_or_create(
+            models.PortInfo.objects.get_or_create(
                 port=port,
                 name=name,
                 product=product,
@@ -51,9 +51,9 @@ def portupdate(request, port_id):
     user = request.user
     error = ''
     if user.is_superuser:
-        port = get_object_or_404(models.Port_Info, id=port_id)
+        port = get_object_or_404(models.PortInfo, id=port_id)
     else:
-        port = get_object_or_404(models.Port_Info, asset__asset_user=user, id=port_id)
+        port = get_object_or_404(models.PortInfo, asset__asset_user=user, id=port_id)
     if request.method == 'POST':
         form = forms.Asset_port_info(request.POST, instance=port)
         if form.is_valid():
@@ -71,9 +71,9 @@ def portdelete(request, port_id):
     user = request.user
     error = ''
     if user.is_superuser:
-        port = get_object_or_404(models.Port_Info, id=port_id)
+        port = get_object_or_404(models.PortInfo, id=port_id)
     else:
-        port = get_object_or_404(models.Port_Info, asset__asset_user=user, id=port_id)
+        port = get_object_or_404(models.PortInfo, asset__asset_user=user, id=port_id)
     if port:
         port.delete()
         error = '删除成功'

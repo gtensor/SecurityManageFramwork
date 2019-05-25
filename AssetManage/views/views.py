@@ -119,11 +119,11 @@ def assetreqeustlist(request):
     if user.is_superuser:
         request_list = models.AssetRequest.objects.filter(request_user__email__icontains=email,
                                                           asset_request_status__icontains=status).order_by(
-            'asset_request_status', 'request_starttime')
+            'asset_request_status', 'request_start_time')
     else:
         request_list = user.assetrequest_for_user.filter(request_user__email__icontains=email,
                                                          asset_request_status__icontains=status).order_by(
-            'asset_request_status', 'request_starttime')
+            'asset_request_status', 'request_start_time')
     total = request_list.count()
     request_list = paging(request_list, rows, page)
     data = []
@@ -136,13 +136,13 @@ def assetreqeustlist(request):
         dic['request_action'] = escape(request_item.request_action)
         dic['request_user'] = escape(request_item.request_user.username)
         dic['request_reason'] = escape(request_item.request_reason)
-        dic['request_starttime'] = escape(request_item.request_starttime)
+        dic['request_start_time'] = escape(request_item.request_start_time)
         if request_item.action_user:
             dic['action_user'] = escape(request_item.action_user.username)
-            dic['request_updatetime'] = escape(request_item.request_updatetime)
+            dic['request_update_time'] = escape(request_item.request_update_time)
         else:
             dic['action_user'] = ''
-            dic['request_updatetime'] = ''
+            dic['request_update_time'] = ''
         data.append(dic)
     resultdict['code'] = 0
     resultdict['msg'] = "用户列表"
@@ -331,12 +331,12 @@ def assettablelist(request):
             asset_key__icontains=key,
             asset_type__in=type_get,
             # asset_area__in=area_get,
-        ).order_by('-asset_score', '-asset_updatetime')
+        ).order_by('-asset_score', '-asset_update_time')
     else:
-        assetlist = user.asset_to_user.all().order_by('-asset_score', '-asset_updatetime')
+        assetlist = user.asset_to_user.all().order_by('-asset_score', '-asset_update_time')
         user_child_list = user.user_parent.all()
         for user_child in user_child_list:
-            child_asset_list = user_child.asset_to_user.all().order_by('-asset_score', '-asset_updatetime')
+            child_asset_list = user_child.asset_to_user.all().order_by('-asset_score', '-asset_update_time')
             assetlist = assetlist | child_asset_list
         assetlist.filter(
             asset_name__icontains=name,
@@ -363,7 +363,7 @@ def assettablelist(request):
             dic['asset_type'] = escape('未分类')
         dic['user_email'] = escape(asset_item.user_email)
         dic['asset_score'] = escape(asset_item.asset_score)
-        dic['asset_updatetime'] = escape(asset_item.asset_updatetime)
+        dic['asset_update_time'] = escape(asset_item.asset_update_time)
         data.append(dic)
     resultdict['code'] = 0
     resultdict['msg'] = "用户列表"

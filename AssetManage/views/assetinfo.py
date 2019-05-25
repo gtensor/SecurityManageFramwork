@@ -17,9 +17,9 @@ def osinfpupdate(request, os_id):
     user = request.user
     error = ''
     if user.is_superuser:
-        osinfo = get_object_or_404(models.OS_Info, id=os_id)
+        osinfo = get_object_or_404(models.OSInfo, id=os_id)
     else:
-        osinfo = get_object_or_404(models.OS_Info, asset__asset_user=user, id=os_id)
+        osinfo = get_object_or_404(models.OSInfo, asset__asset_user=user, id=os_id)
     if request.method == 'POST':
         form = forms.OS_Info_form(request.POST, instance=osinfo)
         if form.is_valid():

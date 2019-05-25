@@ -41,6 +41,13 @@ def asset_port(user_id, asset_id_list):
         if asset:
             ip = asset.asset_key
             if checkip(ip):
+                data_manage = {
+                    'notice_title': '资产发现通知',
+                    'notice_body': '您对' + ip + '的端口发现任务已经开始',
+                    'notice_url': '/asset/user/',
+                    'notice_type': 'notice',
+                }
+                notice_add(user, data_manage)
                 port_list = nmap.nmap_host_all(ip)
                 if port_list != 0:
                     for port_info in port_list.keys():
@@ -48,7 +55,7 @@ def asset_port(user_id, asset_id_list):
                         name = port_list[port_info].get('name')
                         product = port_list[port_info].get('product')
                         version = port_list[port_info].get('version')
-                        port_get = models.Port_Info.objects.get_or_create(
+                        port_get = models.PortInfo.objects.get_or_create(
                             port=port,
                             asset=asset,
                         )
@@ -82,7 +89,7 @@ def asset_port(user_id, asset_id_list):
 
 
 @shared_task
-def asset_descover(user_id, asset_id_list):
+def asset_discover(user_id, asset_id_list):
     user = User.objects.filter(id=user_id).first()
     data_manage = {
         'notice_title': '资产发现通知',
