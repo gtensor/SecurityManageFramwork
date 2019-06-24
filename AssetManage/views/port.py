@@ -1,19 +1,16 @@
-# coding:utf-8
-'''
-Created on 2018年5月18日
+# -*- coding: utf-8 -*-
 
-@author: yuguanc
-'''
-from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_protect
-from .. import models, forms
 from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_protect
+
+from .. import models, forms
 
 
 @login_required
 @csrf_protect
-def portcreate(request, asset_id):
+def port_create(request, asset_id):
     user = request.user
     error = ''
     if user.is_superuser:
@@ -21,7 +18,7 @@ def portcreate(request, asset_id):
     else:
         asset = get_object_or_404(models.Asset, asset_user=user, asset_id=asset_id)
     if request.method == 'POST':
-        form = forms.Asset_port_info(request.POST)
+        form = forms.AssetPortInfo(request.POST)
         if form.is_valid():
             port = form.cleaned_data['port']
             name = form.cleaned_data['name']
@@ -40,14 +37,14 @@ def portcreate(request, asset_id):
         else:
             error = '请检查输入'
     else:
-        form = forms.Asset_port_info()
-    return render(request, 'formupdate.html',
-                  {'form': form, 'post_url': 'portcreate', 'argu': asset_id, 'error': error})
+        form = forms.AssetPortInfo()
+    return render(request, 'form_update.html',
+                  {'form': form, 'post_url': 'port_create', 'argu': asset_id, 'error': error})
 
 
 @login_required
 @csrf_protect
-def portupdate(request, port_id):
+def port_update(request, port_id):
     user = request.user
     error = ''
     if user.is_superuser:
@@ -55,19 +52,20 @@ def portupdate(request, port_id):
     else:
         port = get_object_or_404(models.PortInfo, asset__asset_user=user, id=port_id)
     if request.method == 'POST':
-        form = forms.Asset_port_info(request.POST, instance=port)
+        form = forms.AssetPortInfo(request.POST, instance=port)
         if form.is_valid():
             form.save()
             error = '端口信息已更新'
         else:
             error = '请检查输入'
     else:
-        form = forms.Asset_port_info(instance=port)
-    return render(request, 'formupdate.html', {'form': form, 'post_url': 'portupdate', 'argu': port_id, 'error': error})
+        form = forms.AssetPortInfo(instance=port)
+    return render(request, 'form_update.html',
+                  {'form': form, 'post_url': 'port_update', 'argu': port_id, 'error': error})
 
 
 @login_required
-def portdelete(request, port_id):
+def port_delete(request, port_id):
     user = request.user
     error = ''
     if user.is_superuser:

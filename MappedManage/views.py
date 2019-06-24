@@ -37,7 +37,7 @@ def Mappedupdate(request, mapped_id):
             error = '保存失败'
     else:
         form = forms.Mapped_update_form(instance=mapped)
-    return render(request, 'formupdate.html',
+    return render(request, 'form_update.html',
                   {'form': form, 'post_url': 'mappedupdate', 'argu': mapped_id, 'error': error})
 
 
@@ -109,7 +109,7 @@ def MappedCreate(request):
             error = '请检查输入'
     else:
         form = forms.Mapped_edit_form()
-    return render(request, 'formedit.html', {'form': form, 'post_url': 'mappedcreate', 'error': error})
+    return render(request, 'form_edit.html', {'form': form, 'post_url': 'mappedcreate', 'error': error})
 
 
 @login_required

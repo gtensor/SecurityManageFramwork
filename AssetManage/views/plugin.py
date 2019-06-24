@@ -1,9 +1,5 @@
-# coding:utf-8
-'''
-Created on 2018年5月18日
+# -*- coding: utf-8 -*-
 
-@author: yuguanc
-'''
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
@@ -14,7 +10,7 @@ from .. import models, forms
 
 @login_required
 @csrf_protect
-def plugincreate(request, asset_id):
+def plugin_create(request, asset_id):
     user = request.user
     error = ''
     if user.is_superuser:
@@ -22,7 +18,7 @@ def plugincreate(request, asset_id):
     else:
         asset = get_object_or_404(models.Asset, asset_user=user, asset_id=asset_id)
     if request.method == 'POST':
-        form = forms.Asset_plugin_info(request.POST)
+        form = forms.AssetPluginInfo(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
             version = form.cleaned_data['version']
@@ -37,14 +33,14 @@ def plugincreate(request, asset_id):
         else:
             error = '请检查输入'
     else:
-        form = forms.Asset_plugin_info()
-    return render(request, 'formupdate.html',
-                  {'form': form, 'post_url': 'plugincreate', 'argu': asset_id, 'error': error})
+        form = forms.AssetPluginInfo()
+    return render(request, 'form_update.html',
+                  {'form': form, 'post_url': 'plugin_create', 'argu': asset_id, 'error': error})
 
 
 @login_required
 @csrf_protect
-def pluginupdate(request, plugin_id):
+def plugin_update(request, plugin_id):
     user = request.user
     error = ''
     if user.is_superuser:
@@ -52,20 +48,20 @@ def pluginupdate(request, plugin_id):
     else:
         plugin = get_object_or_404(models.PluginInfo, asset__asset_user=user, id=plugin_id)
     if request.method == 'POST':
-        form = forms.Asset_plugin_info(request.POST, instance=plugin)
+        form = forms.AssetPluginInfo(request.POST, instance=plugin)
         if form.is_valid():
             form.save()
             error = '添加成功'
         else:
             error = '请检查输入'
     else:
-        form = forms.Asset_plugin_info(instance=plugin)
-    return render(request, 'formupdate.html',
-                  {'form': form, 'post_url': 'pluginupdate', 'argu': plugin_id, 'error': error})
+        form = forms.AssetPluginInfo(instance=plugin)
+    return render(request, 'form_update.html',
+                  {'form': form, 'post_url': 'plugin_update', 'argu': plugin_id, 'error': error})
 
 
 @login_required
-def plugindelete(request, plugin_id):
+def plugin_delete(request, plugin_id):
     user = request.user
     error = ''
     if user.is_superuser:

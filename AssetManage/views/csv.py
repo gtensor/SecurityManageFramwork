@@ -1,9 +1,5 @@
-# coding:utf-8
-'''
-Created on 2018年6月8日
+# -*- coding: utf-8 -*-
 
-@author: yuguanc
-'''
 from django.shortcuts import HttpResponse, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
@@ -223,8 +219,9 @@ def create_csv_os(request):
     response['Content-Disposition'] = 'attachment;filename=asset_os.csv'
 
     writer = csv.writer(response)
-    headers = [u"资产名称", u"资产编号", u"资产类型", u"资产标识", u'操作系统', u'CPU型号', 'CPU数量', u'内存大小', u'硬盘大小', u'设备厂商', u'SN号',
-               u'使用人员']
+    headers = [u"资产名称", u"资产编号", u"资产类型", u"资产标识",
+               u'操作系统', u'CPU型号', 'CPU数量', u'内存大小',
+               u'硬盘大小', u'设备厂商', u'SN号', u'使用人员']
     headers = [item for item in headers]
     writer.writerow(headers)
 
@@ -269,7 +266,7 @@ def file_update(request):
             error = '检查输入'
     else:
         form = forms.File()
-    return render(request, 'formedit.html', {'form': form, 'post_url': 'createuploadcsv', 'error': error})
+    return render(request, 'form_edit.html', {'form': form, 'post_url': 'createuploadcsv', 'error': error})
 
 
 @login_required
@@ -279,8 +276,9 @@ def create_csv_web(request):
     response['Content-Disposition'] = 'attachment;filename=asset_web.csv'
 
     writer = csv.writer(response)
-    headers = [u"资产名称", u"资产编号", u"资产类型", u"资产标识", u'管理人员', u'中间件', u'中间件版本', u'外网域名', u'开发语言', u'语言版本', u'开发框架',
-               u'框架版本']
+    headers = [u"资产名称", u"资产编号", u"资产类型", u"资产标识",
+               u'管理人员', u'中间件', u'中间件版本', u'外网域名',
+               u'开发语言', u'语言版本', u'开发框架', u'框架版本']
     headers = [item for item in headers]
     writer.writerow(headers)
 
@@ -294,7 +292,9 @@ def create_csv_vuln(request):
     response['Content-Disposition'] = 'attachment;filename=asset_vuln.csv'
 
     writer = csv.writer(response)
-    headers = [u"资产标识", u"漏洞名称", u'CVE编号', u"危险等级0-4", u'影响范围', u"漏洞介绍", u'漏洞信息', u'修复建议']
+    headers = [u"资产标识", u"漏洞名称", u'CVE编号',
+               u"危险等级0-4", u'影响范围', u"漏洞介绍",
+               u'漏洞信息', u'修复建议']
     headers = [item for item in headers]
     writer.writerow(headers)
 

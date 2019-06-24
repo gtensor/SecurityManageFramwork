@@ -1,9 +1,5 @@
-# coding:utf-8
-'''
-Created on 2018年5月17日
+# -*- coding: utf-8 -*-
 
-@author: yuguanc
-'''
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -22,7 +18,7 @@ ASSET_STATUS = {
 
 
 @login_required
-def assetdetailsview(request, asset_id):
+def asset_details_view(request, asset_id):
     user = request.user
     if user.is_superuser:
         asset = get_object_or_404(models.Asset, asset_id=asset_id)
@@ -42,11 +38,11 @@ def assetdetailsview(request, asset_id):
         'vuln_fix': vuln_fix
     }
 
-    assettypeinfo = asset.asset_type.parent.typeinfo_assettype.all() | asset.asset_type.typeinfo_assettype.all()
+    asset_type_info = asset.asset_type.parent.typeinfo_assettype.all() | asset.asset_type.typeinfo_assettype.all()
 
     info = []
 
-    for typeinfo in assettypeinfo:
+    for typeinfo in asset_type_info:
         info.append(typeinfo.key)
 
     if 'os' in info:
@@ -76,7 +72,7 @@ def assetdetailsview(request, asset_id):
 @login_required
 def asset_ports(request, asset_id):
     user = request.user
-    resultdict = {}
+    result_dict = dict()
 
     # page = request.GET.get('page')
     # rows = request.GET.get('limit')
@@ -90,7 +86,7 @@ def asset_ports(request, asset_id):
     # port_list = paging(port_list,rows,page)
     data = []
     for port in port_list:
-        dic = {}
+        dic = dict()
         dic['id'] = escape(port.id)
         dic['port'] = escape(port.port)
         dic['product'] = escape(port.product)
@@ -98,17 +94,17 @@ def asset_ports(request, asset_id):
         dic['port_info'] = escape(port.port_info)
         dic['update_time'] = escape(port.update_time)
         data.append(dic)
-    resultdict['code'] = 0
-    resultdict['msg'] = "端口列表"
-    resultdict['count'] = total
-    resultdict['data'] = data
-    return JsonResponse(resultdict)
+    result_dict['code'] = 0
+    result_dict['msg'] = "端口列表"
+    result_dict['count'] = total
+    result_dict['data'] = data
+    return JsonResponse(result_dict)
 
 
 @login_required
 def asset_vuln(request, asset_id):
     user = request.user
-    resultdict = {}
+    result_dict = dict()
 
     page = request.GET.get('page')
     rows = request.GET.get('limit')
@@ -122,7 +118,7 @@ def asset_vuln(request, asset_id):
     vuln_list = paging(vuln_list, rows, page)
     data = []
     for vuln in vuln_list:
-        dic = {}
+        dic = dict()
         dic['vuln_id'] = escape(vuln.vuln_id)
         dic['cve_name'] = escape(vuln.cve_name)
         dic['vuln_name'] = escape(vuln.vuln_name)
@@ -133,17 +129,17 @@ def asset_vuln(request, asset_id):
         dic['asset'] = escape(vuln.vuln_asset.asset_key)
         dic['asset_id'] = escape(vuln.vuln_asset.asset_id)
         data.append(dic)
-    resultdict['code'] = 0
-    resultdict['msg'] = "端口列表"
-    resultdict['count'] = total
-    resultdict['data'] = data
-    return JsonResponse(resultdict)
+    result_dict['code'] = 0
+    result_dict['msg'] = "端口列表"
+    result_dict['count'] = total
+    result_dict['data'] = data
+    return JsonResponse(result_dict)
 
 
 @login_required
 def asset_plugin(request, asset_id):
     user = request.user
-    resultdict = {}
+    result_dict = dict()
 
     # page = request.GET.get('page')
     # rows = request.GET.get('limit')
@@ -157,24 +153,24 @@ def asset_plugin(request, asset_id):
     # plugin_list = paging(plugin_list,rows,page)
     data = []
     for plugin in plugin_list:
-        dic = {}
+        dic = dict()
         dic['id'] = escape(plugin.id)
         dic['name'] = escape(plugin.name)
         dic['version'] = escape(plugin.version)
         dic['plugin_info'] = escape(plugin.plugin_info)
         dic['update_time'] = escape(plugin.updatetime)
         data.append(dic)
-    resultdict['code'] = 0
-    resultdict['msg'] = "端口列表"
-    resultdict['count'] = total
-    resultdict['data'] = data
-    return JsonResponse(resultdict)
+    result_dict['code'] = 0
+    result_dict['msg'] = "端口列表"
+    result_dict['count'] = total
+    result_dict['data'] = data
+    return JsonResponse(result_dict)
 
 
 @login_required
 def asset_file(request, asset_id):
     user = request.user
-    resultdict = {}
+    result_dict = dict()
 
     # page = request.GET.get('page')
     # rows = request.GET.get('limit')
@@ -188,24 +184,24 @@ def asset_file(request, asset_id):
     # file_list = paging(file_list,rows,page)
     data = []
     for file in file_list:
-        dic = {}
+        dic = dict()
         dic['id'] = escape(file.id)
         dic['name'] = escape(file.name)
         dic['file'] = escape('/uploads/' + str(file.file))
         dic['file_info'] = escape(file.file_info)
         dic['update_time'] = escape(file.updatetime)
         data.append(dic)
-    resultdict['code'] = 0
-    resultdict['msg'] = "端口列表"
-    resultdict['count'] = total
-    resultdict['data'] = data
-    return JsonResponse(resultdict)
+    result_dict['code'] = 0
+    result_dict['msg'] = "端口列表"
+    result_dict['count'] = total
+    result_dict['data'] = data
+    return JsonResponse(result_dict)
 
 
 @login_required
 def asset_asset(request, asset_id):
     user = request.user
-    resultdict = {}
+    result_dict = dict()
 
     # page = request.GET.get('page')
     # rows = request.GET.get('limit')
@@ -214,30 +210,31 @@ def asset_asset(request, asset_id):
         asset = get_object_or_404(models.Asset, asset_id=asset_id)
     else:
         asset = get_object_or_404(models.Asset, asset_user=user, asset_id=asset_id)
-    assetconnect_list = asset.asset_connect.all().order_by('-asset_update_time')
-    total = assetconnect_list.count()
-    # assetconnect_list = paging(assetconnect_list,rows,page)
+    asset_connect_list = asset.asset_connect.all().order_by('-asset_update_time')
+    total = asset_connect_list.count()
+    # asset_connect_list = paging(asset_connect_list,rows,page)
+    
     data = []
-    for assetconnect in assetconnect_list:
-        dic = {}
-        dic['asset_id'] = escape(assetconnect.asset_id)
-        dic['asset_name'] = escape(assetconnect.asset_name)
-        dic['asset_key'] = escape(assetconnect.asset_key)
-        dic['asset_status'] = escape(ASSET_STATUS[assetconnect.asset_status])
-        if assetconnect.asset_inuse:
+    for asset_connect in asset_connect_list:
+        dic = dict()
+        dic['asset_id'] = escape(asset_connect.asset_id)
+        dic['asset_name'] = escape(asset_connect.asset_name)
+        dic['asset_key'] = escape(asset_connect.asset_key)
+        dic['asset_status'] = escape(ASSET_STATUS[asset_connect.asset_status])
+        if asset_connect.asset_inuse:
             dic['asset_inuse'] = escape('已认领')
         else:
             dic['asset_inuse'] = escape('待认领')
-        if assetconnect.asset_type:
-            dic['asset_type'] = escape(assetconnect.asset_type.name)
+        if asset_connect.asset_type:
+            dic['asset_type'] = escape(asset_connect.asset_type.name)
         else:
             dic['asset_type'] = escape('未分类')
-        dic['user_email'] = escape(assetconnect.user_email)
-        dic['asset_score'] = escape(assetconnect.asset_score)
-        dic['asset_update_time'] = escape(assetconnect.asset_updatetime)
+        dic['user_email'] = escape(asset_connect.user_email)
+        dic['asset_score'] = escape(asset_connect.asset_score)
+        dic['asset_update_time'] = escape(asset_connect.asset_update_time)
         data.append(dic)
-    resultdict['code'] = 0
-    resultdict['msg'] = "端口列表"
-    resultdict['count'] = total
-    resultdict['data'] = data
-    return JsonResponse(resultdict)
+    result_dict['code'] = 0
+    result_dict['msg'] = "端口列表"
+    result_dict['count'] = total
+    result_dict['data'] = data
+    return JsonResponse(result_dict)

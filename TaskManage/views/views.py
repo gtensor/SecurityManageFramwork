@@ -158,7 +158,7 @@ def TaskSync(request):
                     error = '扫描节点不支持导入'
         else:
             form = forms.TaskSyncForm()
-        return render(request, 'formedit.html', {'form': form, 'post_url': 'tasksync', 'error': error})
+        return render(request, 'form_edit.html', {'form': form, 'post_url': 'tasksync', 'error': error})
     else:
         error = '权限错误'
     return render(request, 'error.html', {'error': error})

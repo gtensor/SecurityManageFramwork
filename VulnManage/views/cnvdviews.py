@@ -46,7 +46,7 @@ def renew(request):
                 error = '文件错误'
         else:
             form = forms.Cnvd_file_form()
-            return render(request,'formedit.html',{'form':form,'post_url':'cnvdvulnrenew','title':'同步漏洞库'})
+            return render(request, 'form_edit.html', {'form':form, 'post_url': 'cnvdvulnrenew', 'title': '同步漏洞库'})
     else:
         error = '权限不足'
     return render(request,'error.html',{'error':error})
@@ -72,7 +72,7 @@ def cnvdvuln_update(request,cnvdvuln_id):
                 error = '修改成功'
         else:
             form = forms.Cnvd_vuln_form(instance =cnvd_vuln)
-        return render(request,'formupdate.html',{'form':form,'post_url':'cnvdvulnupdate','argu':cnvdvuln_id,'error':error})
+        return render(request, 'form_update.html', {'form':form, 'post_url': 'cnvdvulnupdate', 'argu':cnvdvuln_id, 'error':error})
     else:
         error = '权限错误'
         return render(request,'error.html',{'error':error})

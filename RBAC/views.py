@@ -216,10 +216,10 @@ def changeuserinfo(request):
             error = '修改成功'
         else:
             error = '请检查输入'
-        return render(request, 'formedit.html', {'form': form, 'post_url': 'changeuserinfo', 'error': error})
+        return render(request, 'form_edit.html', {'form': form, 'post_url': 'changeuserinfo', 'error': error})
     else:
         form = forms.UserInfoForm(instance=user.profile)
-    return render(request, 'formedit.html', {'form': form, 'post_url': 'changeuserinfo'})
+    return render(request, 'form_edit.html', {'form': form, 'post_url': 'changeuserinfo'})
 
 
 @login_required
@@ -257,10 +257,10 @@ def changepsd(request):
                 error = '密码必须6位以上且包含字母、数字'
         else:
             error = '请检查输入'
-        return render(request, 'formedit.html', {'form': form, 'post_url': 'changepsd', 'error': error})
+        return render(request, 'form_edit.html', {'form': form, 'post_url': 'changepsd', 'error': error})
     else:
         form = forms.ChangPasswdForm()
-    return render(request, 'formedit.html', {'form': form, 'post_url': 'changepsd'})
+    return render(request, 'form_edit.html', {'form': form, 'post_url': 'changepsd'})
 
 
 @login_required
@@ -535,7 +535,7 @@ def user_add(request):
             form = forms.UserRequestForm()
     else:
         error = '请检查权限是否正确'
-    return render(request, 'formedit.html', {'form': form, 'post_url': 'useradd', 'error': error})
+    return render(request, 'form_edit.html', {'form': form, 'post_url': 'useradd', 'error': error})
 
 
 @login_required

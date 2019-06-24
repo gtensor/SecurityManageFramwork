@@ -1,9 +1,5 @@
-# coding:utf-8
-'''
-Created on 2018年5月18日
+# -*- coding: utf-8 -*-
 
-@author: yuguanc
-'''
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
@@ -14,11 +10,11 @@ from .. import models, forms
 
 @login_required
 @csrf_protect
-def assetconnectcreate(request, asset_id):
+def asset_connect_create(request, asset_id):
     user = request.user
     error = ''
     if request.method == 'POST':
-        form = forms.Asset_connect_form(request.POST)
+        form = forms.AssetConnectForm(request.POST)
         if form.is_valid():
             asset_key = form.cleaned_data['asset_key']
             if user.is_superuser:
@@ -33,13 +29,14 @@ def assetconnectcreate(request, asset_id):
         else:
             error = '请检查输入'
     else:
-        form = forms.Asset_connect_form()
-    return render(request, 'formupdate.html',
-                  {'form': form, 'post_url': 'assetconnectcreate', 'argu': asset_id, 'error': error})
+        form = forms.AssetConnectForm()
+    return render(request, 'form_update.html',
+                  {'form': form, 'post_url': 'asset_connect_create',
+                   'argu': asset_id, 'error': error})
 
 
 @login_required
-def assetconnectdelete(request, asset_id, assetconnect_id):
+def asset_connect_delete(request, asset_id, assetconnect_id):
     user = request.user
     error = ''
     if user.is_superuser:

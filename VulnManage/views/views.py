@@ -48,7 +48,7 @@ def vuln_change_status(request,vuln_id):
             form = forms.Vuln_action_form(instance=vuln)
     else:
         error ='请检查参数'
-    return render(request,'formupdate.html',{'form':form,'post_url':'vulnfix','argu':vuln_id,'error':error})
+    return render(request, 'form_update.html', {'form':form, 'post_url': 'vulnfix', 'argu':vuln_id, 'error':error})
 
 
 
@@ -74,7 +74,7 @@ def vuln_update(request,vuln_id):
             error ='请检查参数'
     else:
         error = '权限错误'
-    return render(request,'formupdate.html',{'form':form,'post_url':'vulnupdate','argu':vuln_id,'error':error})
+    return render(request, 'form_update.html', {'form':form, 'post_url': 'vulnupdate', 'argu':vuln_id, 'error':error})
 
 
 @login_required
@@ -129,7 +129,7 @@ def vulncreate(request,asset_id):
             error = '请检查输入'
     else:
         form = forms.Vuln_edit_form()
-    return render(request,'formupdate.html',{'form':form,'post_url':'vulncreate','argu':asset_id,'error':error})
+    return render(request, 'form_update.html', {'form':form, 'post_url': 'vulncreate', 'argu':asset_id, 'error':error})
 
 
 @login_required

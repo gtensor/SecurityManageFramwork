@@ -1,9 +1,5 @@
-# coding:utf-8
-'''
-Created on 2018年5月15日
+# -*- coding: utf-8 -*-
 
-@author: yuguanc
-'''
 from . import models
 from django import forms
 from django.forms import ModelForm, widgets
@@ -40,7 +36,7 @@ class AssetUserForm(ModelForm):
         }
 
 
-class Asset_create_form(ModelForm):
+class AssetCreateForm(ModelForm):
     class Meta:
         model = models.Asset
         fields = ['asset_name', 'asset_type', 'asset_key', 'asset_out_id', 'asset_area', 'user_email',
@@ -57,7 +53,7 @@ class Asset_create_form(ModelForm):
         }
 
 
-class AssetRequest_edit_form(ModelForm):
+class AssetRequestEditForm(ModelForm):
     class Meta:
         model = models.AssetRequest
         fields = ['asset_key', 'asset_type', 'request_action', 'request_reason']
@@ -69,7 +65,7 @@ class AssetRequest_edit_form(ModelForm):
         }
 
 
-class Asset_port_info(ModelForm):
+class AssetPortInfo(ModelForm):
     class Meta:
         model = models.PortInfo
         fields = ['port', 'name', 'product', 'version', 'port_info']
@@ -82,7 +78,7 @@ class Asset_port_info(ModelForm):
         }
 
 
-class Asset_plugin_info(ModelForm):
+class AssetPluginInfo(ModelForm):
     class Meta:
         model = models.PluginInfo
         fields = ['name', 'version', 'plugin_info']
@@ -93,7 +89,7 @@ class Asset_plugin_info(ModelForm):
         }
 
 
-class File_info(ModelForm):
+class FileInfo(ModelForm):
     class Meta:
         model = models.File
         fields = ['name', 'file', 'file_info']
@@ -104,12 +100,12 @@ class File_info(ModelForm):
         }
 
 
-class Asset_connect_form(forms.Form):
+class AssetConnectForm(forms.Form):
     asset_key = forms.CharField(label='资产标识', widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': '资产标识/服务器为ip，网站为域名或访问地址'}))
 
 
-class OS_Info_form(ModelForm):
+class OSInfoForm(ModelForm):
     class Meta:
         model = models.OSInfo
         fields = ['hostname', 'os', 'cpu_model', 'cpu_num', 'memory', 'disk', 'monitor', 'vendor', 'sn', 'cabinet',

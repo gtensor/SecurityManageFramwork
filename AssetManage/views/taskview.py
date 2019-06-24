@@ -1,9 +1,5 @@
-# coding:utf-8
-'''
-Created on 2018年5月24日
+# -*- coding: utf-8 -*-
 
-@author: yuguanc
-'''
 import json
 
 from django.contrib.auth.decorators import login_required
@@ -39,25 +35,25 @@ def task_action(request):
 
 @login_required
 @csrf_protect
-def assetuser_action(request):
+def asset_user_action(request):
     user = request.user
     asset_id_list = request.POST.get('asset_id_list')
-    asset_user = models.AssetUser.objects.get_or_create(
+    _asset_user = models.AssetUser.objects.get_or_create(
         asset_list=asset_id_list,
         action_user=user,
     )
-    assetuser_id = asset_user[0].id
-    return JsonResponse({'assetuser_id': assetuser_id})
+    asset_user_id = _asset_user[0].id
+    return JsonResponse({'assetuser_id': asset_user_id})
 
 
 @login_required
 @csrf_protect
-def assetuser(request, assetuser_id):
+def asset_user(request, assetuser_id):
     user = request.user
     error = ''
-    assetuser = get_object_or_404(models.AssetUser, id=assetuser_id, action_user=user)
+    _asset_user = get_object_or_404(models.AssetUser, id=assetuser_id, action_user=user)
     if request.method == 'POST':
-        form = forms.AssetUserForm(request.POST, instance=assetuser)
+        form = forms.AssetUserForm(request.POST, instance=_asset_user)
         if form.is_valid():
             dst_user_email = form.cleaned_data['dst_user_email']
             user = User.objects.filter(email=dst_user_email).first()
@@ -70,8 +66,8 @@ def assetuser(request, assetuser_id):
             else:
                 error = '对方账号不存在'
         else:
-            errro = '请检查输入'
+            error = '请检查输入'
     else:
-        form = forms.AssetUserForm(instance=assetuser)
-    return render(request, 'formupdate.html',
+        form = forms.AssetUserForm(instance=_asset_user)
+    return render(request, 'form_update.html',
                   {'form': form, 'post_url': 'assetuserdo', 'argu': assetuser_id, 'error': error})

@@ -1,19 +1,17 @@
-# coding:utf-8
-'''
-Created on 2018年6月6日
+# -*- coding: utf-8 -*-
 
-@author: yuguanc
-'''
-from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_protect
-from .. import models, forms
 from django.contrib.auth.models import User
-from NoticeManage.views import notice_add
-from django.http import JsonResponse
-from SeMFSetting.views import paging
 from django.db.models import Q
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404
 from django.utils.html import escape
+from django.views.decorators.csrf import csrf_protect
+
+from NoticeManage.views import notice_add
+from SeMFSetting.views import paging
+from .. import models, forms
+
 
 REQUEST_STATUS = {
     '0': '待审批',
@@ -65,7 +63,7 @@ def asset_handover_action(request):
 def asset_handover_list(request):
     user = request.user
     if user.is_superuser:
-        resultdict = {}
+        result_dict = {}
 
         page = request.POST.get('page')
         rows = request.POST.get('limit')
@@ -97,11 +95,11 @@ def asset_handover_list(request):
             dic['status'] = escape(REQUEST_STATUS[handover.status])
             dic['request_update_time'] = escape(handover.request_update_time)
             data.append(dic)
-        resultdict['code'] = 0
-        resultdict['msg'] = "端口列表"
-        resultdict['count'] = total
-        resultdict['data'] = data
-        return JsonResponse(resultdict)
+        result_dict['code'] = 0
+        result_dict['msg'] = "端口列表"
+        result_dict['count'] = total
+        result_dict['data'] = data
+        return JsonResponse(result_dict)
     else:
         error = '权限错误'
     return JsonResponse({'error': error})
@@ -152,4 +150,4 @@ def asset_handover(request):
             error = '请检查输入'
     else:
         form = forms.HandoverForm()
-    return render(request, 'formedit.html', {'form': form, 'post_url': 'assethandover', 'error': error})
+    return render(request, 'form_edit.html', {'form': form, 'post_url': 'assethandover', 'error': error})

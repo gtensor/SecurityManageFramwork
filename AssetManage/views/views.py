@@ -1,15 +1,18 @@
 # coding:utf-8
 
-from django.shortcuts import render, get_object_or_404
-from django.views.decorators.csrf import csrf_protect
+import json
+import time
+
 from django.contrib.auth.decorators import login_required
-from .. import models, forms
 from django.contrib.auth.models import User
-from SeMFSetting.views import paging
 from django.http import JsonResponse
-from RBAC.models import Area
-import json, time, random
+from django.shortcuts import render, get_object_or_404
 from django.utils.html import escape
+from django.views.decorators.csrf import csrf_protect
+
+from RBAC.models import Area
+from SeMFSetting.views import paging
+from .. import models, forms
 
 # Create your views here.
 ASSET_STATUS = {
@@ -69,7 +72,7 @@ def asset_request_list_action(request):
 
 @login_required
 @csrf_protect
-def assetrequestaction(request):
+def asset_request_action(request):
     user = request.user
     error = ''
     if user.is_superuser:
@@ -102,7 +105,7 @@ def assetrequestaction(request):
 
 @login_required
 @csrf_protect
-def assetreqeustlist(request):
+def asset_request_list(request):
     user = request.user
     resultdict = {}
 
@@ -152,7 +155,7 @@ def assetreqeustlist(request):
 
 
 @login_required
-def assetrequestview(request):
+def asset_request_view(request):
     return render(request, 'AssetManage/assetrequestlist.html')
 
 
@@ -162,7 +165,7 @@ def asset_request(request):
     user = request.user
     error = ''
     if request.method == 'POST':
-        form = forms.AssetRequest_edit_form(request.POST)
+        form = forms.AssetRequestEditForm(request.POST)
         if form.is_valid():
             asset_key = form.cleaned_data['asset_key']
             asset = models.Asset.objects.filter(asset_key=asset_key)
@@ -182,10 +185,10 @@ def asset_request(request):
                 error = '资产库内无该资产，请使用资产新增'
         else:
             error = '请检查输入'
-        return render(request, 'formedit.html', {'form': form, 'post_url': 'assetrequest', 'error': error})
+        return render(request, 'form_edit.html', {'form': form, 'post_url': 'assetrequest', 'error': error})
     else:
-        form = forms.AssetRequest_edit_form()
-    return render(request, 'formedit.html', {'form': form, 'post_url': 'assetrequest'})
+        form = forms.AssetRequestEditForm()
+    return render(request, 'form_edit.html', {'form': form, 'post_url': 'assetrequest'})
 
 
 @login_required
@@ -194,7 +197,7 @@ def asset_create(request):
     user = request.user
     error = ''
     if request.method == 'POST':
-        form = forms.Asset_create_form(request.POST)
+        form = forms.AssetCreateForm(request.POST)
         if form.is_valid():
             try:
                 num_id = models.Asset.objects.latest('id').id
@@ -239,15 +242,15 @@ def asset_create(request):
             error = '添加成功'
         else:
             error = '非法输入或资产已存在，请进行资产申请'
-        return render(request, 'formedit.html', {'form': form, 'post_url': 'assetcreate', 'error': error})
+        return render(request, 'form_edit.html', {'form': form, 'post_url': 'assetcreate', 'error': error})
     else:
-        form = forms.Asset_create_form()
-    return render(request, 'formedit.html', {'form': form, 'post_url': 'assetcreate'})
+        form = forms.AssetCreateForm()
+    return render(request, 'form_edit.html', {'form': form, 'post_url': 'assetcreate'})
 
 
 @login_required
 @csrf_protect
-def assetupdate(request, asset_id):
+def asset_update(request, asset_id):
     user = request.user
     error = ''
     if user.is_superuser:
@@ -255,21 +258,21 @@ def assetupdate(request, asset_id):
     else:
         asset = get_object_or_404(models.Asset, asset_user=user, asset_id=asset_id)
     if request.method == 'POST':
-        form = forms.Asset_create_form(request.POST, instance=asset)
+        form = forms.AssetCreateForm(request.POST, instance=asset)
         if form.is_valid():
             form.save()
             error = '修改成功'
         else:
             error = '请检查输入'
     else:
-        form = forms.Asset_create_form(instance=asset)
-    return render(request, 'formupdate.html',
-                  {'form': form, 'post_url': 'assetupdate', 'argu': asset_id, 'error': error})
+        form = forms.AssetCreateForm(instance=asset)
+    return render(request, 'form_update.html',
+                  {'form': form, 'post_url': 'asset_update', 'argu': asset_id, 'error': error})
 
 
 @login_required
 @csrf_protect
-def assetdelete(request):
+def asset_delete(request):
     user = request.user
     error = '操作成功'
     asset_id_list = request.POST.get('asset_id_list')
@@ -291,7 +294,7 @@ def assetdelete(request):
 
 
 @login_required
-def assetview(request):
+def asset_view(request):
     area = Area.objects.filter(parent__isnull=True)
     asset_type = models.AssetType.objects.filter(parent__isnull=False)
 
@@ -300,7 +303,7 @@ def assetview(request):
 
 @login_required
 @csrf_protect
-def assettablelist(request):
+def asset_table_list(request):
     user = request.user
     resultdict = {}
     page = request.POST.get('page')

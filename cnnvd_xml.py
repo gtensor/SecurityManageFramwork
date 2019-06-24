@@ -1,9 +1,10 @@
 #! /usr/bin/python3
 # -*- coding:UTF-8 -*-
 
-from django.urls import path
+import os
+import xml.dom.minidom
 from xml.dom.minidom import parse
-import xml.dom.minidom,os
+
 import django
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SeMF.settings')
@@ -12,27 +13,26 @@ from VulnManage.models import Vulnerability
 
 fill_path_list = []
 dome_path = os.getcwd()
-files_path = os.path.join(dome_path,'cnnvd_xml')
+files_path = os.path.join(dome_path, 'cnnvd_xml')
 
-files_list = os.listdir(files_path) 
+files_list = os.listdir(files_path)
 for file_name in files_list:
     if os.path.splitext(file_name)[1] == '.xml':
-        #file_path = os.path.join(files_path,file_name)
-        #fill_path_list.append(file_path)
+        # file_path = os.path.join(files_path,file_name)
+        # fill_path_list.append(file_path)
         fill_path_list.append(file_name)
 
 for file_name in fill_path_list:
-    print ('import'+file_name)
-    
+    print('import' + file_name)
+
     os.chdir(files_path)
     DOMTree = xml.dom.minidom.parse(file_name)
     collection = DOMTree.documentElement
     if collection.hasAttribute('shelf'):
         print('ok: %s' % collection.getAttribute('shelf'))
-    
-    
+
     Vulnerabities_in = collection.getElementsByTagName('entry')
-    
+
     for vulnerabit in Vulnerabities_in:
         try:
             number = vulnerabit.getElementsByTagName('vuln-id')[0]
@@ -61,9 +61,8 @@ for file_name in fill_path_list:
             introduce = description.childNodes[0].data + '\n' + referenceLink.childNodes[0].data
             fix = patchDescription.childNodes[0].data
             update_data = submitTime.childNodes[0].data
-            Vulnerability.objects.get_or_create(update_data=update_data,fix=fix,cve_id=cve_id,cnvd_id=cnvd_id,cve_name=cve_name,leave=leave,scopen=scopen,introduce=introduce,)
-            print(cveNumber+' is OK') 
+            Vulnerability.objects.get_or_create(update_data=update_data, fix=fix, cve_id=cve_id, cnvd_id=cnvd_id,
+                                                cve_name=cve_name, leave=leave, scopen=scopen, introduce=introduce, )
+            print(cveNumber + ' is OK')
         except:
             print('Pass')
-        
-        

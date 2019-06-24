@@ -8,7 +8,7 @@ from django.urls import path
 from .views import views,cnvdviews
 
 urlpatterns = [
-    path('user/',views.vulnview,name='vulnview'),
+    path('user/',views.vulnview,name='vuln_view'),
     path('user/list/',views.vulntablelist,name='vulnlist'),
     path('user/listfix/',views.vulnfixlist,name='vulnlistfix'),
     path('user/fix/<str:vuln_id>/',views.vuln_change_status,name='vulnfix'),

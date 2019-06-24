@@ -1,19 +1,20 @@
-# coding:utf-8
+# -*- coding: utf-8 -*-
 
-# Create your views here.
-from django.shortcuts import render, get_object_or_404
-from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
-from . import models, forms
-from SeMFSetting.views import paging
-from django.http import JsonResponse
-from .Functions.uploadimgs import image_upload
-from NoticeManage.views import notice_add
-from django.contrib.auth.models import User
 import time
 import uuid
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404
 from django.utils.html import escape
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_protect
+
+from NoticeManage.views import notice_add
+from SeMFSetting.views import paging
+from . import models, forms
+from .Functions.uploadimgs import image_upload
 
 ARTICLE_STATUS = {
     '0': '新建',
@@ -23,7 +24,7 @@ ARTICLE_STATUS = {
 
 
 @login_required
-def articlerevoke(request, article_id):
+def article_revoke(request, article_id):
     user = request.user
     error = ''
     if user.is_superuser:
@@ -37,7 +38,7 @@ def articlerevoke(request, article_id):
 
 
 @login_required
-def articlepublic(request, article_id):
+def article_public(request, article_id):
     user = request.user
     error = ''
     if user.is_superuser:
@@ -45,9 +46,11 @@ def articlepublic(request, article_id):
         article.article_status = '1'
         if article.article_type.parent:
             if article.article_type.parent.article_type_name == '通告':
+                notice_body = '系统发布新通告:' + article.article_type.article_type_name +\
+                              '--' + article.article_name + '，请进行查看'
                 data_manage = {
                     'notice_title': '系统通告',
-                    'notice_body': '系统发布新通告:' + article.article_type.article_type_name + '--' + article.article_name + '，请进行查看',
+                    'notice_body': notice_body,
                     'notice_url': '/article/user/details/' + article_id + '/',
                     'notice_type': 'inform',
                 }
@@ -72,7 +75,7 @@ def articlepublic(request, article_id):
 
 
 @login_required
-def articledelete(request, article_id):
+def article_delete(request, article_id):
     user = request.user
     error = ''
     if user.is_superuser:
@@ -85,34 +88,34 @@ def articledelete(request, article_id):
 
 
 @login_required
-def articledetails(request, article_id):
+def article_details(request, article_id):
     user = request.user
     if user.is_superuser:
         article = get_object_or_404(models.Article, article_id=article_id)
     else:
         article = get_object_or_404(models.Article, article_status='1', article_id=article_id)
 
-    return render(request, 'ArticleManage/articledetails.html', {'article': article})
+    return render(request, 'ArticleManage/article_details.html', {'article': article})
 
 
 @login_required
 @csrf_protect
-def articleupdate(request, article_id):
+def article_update(request, article_id):
     user = request.user
     error = ''
     if user.is_superuser:
         article = get_object_or_404(models.Article, article_id=article_id)
         if request.method == 'POST':
-            form = forms.Article_edit_form(request.POST, request.FILES, instance=article)
+            form = forms.ArticleEditForm(request.POST, request.FILES, instance=article)
             if form.is_valid():
                 form.save()
                 error = '修改成功'
             else:
                 error = '请检查输入'
         else:
-            form = forms.Article_edit_form(instance=article)
-        return render(request, 'formupdate.html',
-                      {'form': form, 'post_url': 'articleupdate', 'argu': article_id, 'error': error})
+            form = forms.ArticleEditForm(instance=article)
+        return render(request, 'form_update.html',
+                      {'form': form, 'post_url': 'article_update', 'argu': article_id, 'error': error})
     else:
         error = '权限错误'
     return render(request, 'error.html', {'error': error})
@@ -120,12 +123,12 @@ def articleupdate(request, article_id):
 
 @login_required
 @csrf_protect
-def articlecreate(request):
+def article_create(request):
     user = request.user
     error = ''
     if user.is_superuser:
         if request.method == 'POST':
-            form = forms.Article_edit_form(request.POST, request.FILES)
+            form = forms.ArticleEditForm(request.POST, request.FILES)
             if form.is_valid():
                 try:
                     num_id = models.Article.objects.latest('id').id
@@ -153,22 +156,22 @@ def articlecreate(request):
                 )
                 error = '创建成功'
         else:
-            form = forms.Article_edit_form()
-        return render(request, 'formedit.html', {'form': form, 'post_url': 'articlecreate', 'error': error})
+            form = forms.ArticleEditForm()
+        return render(request, 'form_edit.html', {'form': form, 'post_url': 'article_create', 'error': error})
     else:
         error = '权限错误'
     return render(request, 'error.html', {'error': error})
 
 
 @login_required
-def vulnview(request):
-    articletype = models.ArticleType.objects.filter(parent__isnull=False)
-    return render(request, 'ArticleManage/articlelist.html', {'articletype': articletype})
+def vuln_view(request):
+    article_type = models.ArticleType.objects.filter(parent__isnull=False)
+    return render(request, 'ArticleManage/article_list.html', {'articletype': article_type})
 
 
 @login_required
 @csrf_protect
-def articleablelist(request):
+def articleable_list(request):
     user = request.user
     resultdict = {}
     page = request.POST.get('page')
@@ -193,14 +196,14 @@ def articleablelist(request):
             article_name__icontains=name,
             article_type__in=type_get,
             article_status__icontains=status
-        ).order_by('article_status', '-article_updatetime', '-id')
+        ).order_by('article_status', '-article_update_time', '-id')
     else:
         article_list = models.Article.objects.filter(
             article_status='1',
             article_name__icontains=name,
             article_type__in=type_get,
             article_status__icontains=status
-        ).order_by('-article_updatetime')
+        ).order_by('-article_update_time')
 
     total = article_list.count()
     article_list = paging(article_list, rows, page)
@@ -210,7 +213,7 @@ def articleablelist(request):
         dic['article_id'] = escape(article_item.article_id)
         dic['article_name'] = escape(article_item.article_name)
         dic['article_type'] = escape(article_item.article_type.article_type_name)
-        dic['article_updatetime'] = escape(article_item.article_updatetime)
+        dic['article_update_time'] = escape(article_item.article_updatetime)
         dic['article_status'] = escape(ARTICLE_STATUS[article_item.article_status])
         dic['article_user'] = escape(article_item.article_user.username)
         data.append(dic)
