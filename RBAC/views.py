@@ -31,7 +31,7 @@ REAUEST_STATUS = {
 @login_required
 def main(request):
     article = Article.objects.filter(article_status='1').last()
-    article_list = Article.objects.filter(article_status='1').order_by('-article_updatetime')[:15]
+    article_list = Article.objects.filter(article_status='1').order_by('-article_update_time')[:15]
 
     user_count = User.objects.all().count()
     article_count = Article.objects.filter(article_status='1').count()
@@ -88,7 +88,7 @@ def regist(request, argu):
                 error = '请检查输入'
         else:
             form = forms.UserRequestForm()
-        return render(request, 'RBAC/registrequest.html', {'form': form, 'error': error})
+        return render(request, 'RBAC/regist_request.html', {'form': form, 'error': error})
     else:
         regist_get = get_object_or_404(models.UserRequest, urlarg=argu, is_use=False)
         if request.method == 'POST':
@@ -162,7 +162,7 @@ def resetpasswd(request, argu='resetpsd'):
                 error = '请检查输入'
         else:
             form = forms.ResetpsdRequestForm()
-        return render(request, 'RBAC/resetpsdquest.html', {'form': form, 'error': error})
+        return render(request, 'RBAC/reset_psd_request.html', {'form': form, 'error': error})
     else:
         resetpsd = get_object_or_404(models.UserResetpsd, urlarg=argu)
         if resetpsd:
@@ -195,7 +195,7 @@ def resetpasswd(request, argu='resetpsd'):
                     error = '请检查输入'
             else:
                 form = forms.ResetpsdForm()
-            return render(request, 'RBAC/resetpsd.html', {'form': form, 'error': error, 'title': '重置'})
+            return render(request, 'RBAC/reset_psd.html', {'form': form, 'error': error, 'title': '重置'})
 
 
 @login_required
@@ -224,7 +224,7 @@ def changeuserinfo(request):
 
 @login_required
 def userinfo(request):
-    return render(request, 'RBAC/userinfo.html')
+    return render(request, 'RBAC/user_info.html')
 
 
 @login_required
@@ -319,7 +319,7 @@ def userlist(request):
     if user.is_superuser:
         area = models.Area.objects.filter(parent__isnull=True)
         city = models.Area.objects.filter(parent__isnull=False)
-        return render(request, 'RBAC/userlist.html', {'area': area, 'city': city})
+        return render(request, 'RBAC/user_list.html', {'area': area, 'city': city})
     else:
         error = '权限错误'
     return render(request, 'error.html', {'error': error})
@@ -426,7 +426,7 @@ def userregistlist(request):
     error = ''
     if user.is_superuser:
         area = models.Area.objects.filter(parent__isnull=True)
-        return render(request, 'RBAC/userregistlist.html', {'area': area})
+        return render(request, 'RBAC/user_regist_list.html', {'area': area})
     else:
         error = '权限错误'
     return render(request, 'error.html', {'error': error})

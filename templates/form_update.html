@@ -1,4 +1,4 @@
-{% extends "index.html" %} 
+{% extends "index.html" %}
 <meta charset="UTF-8">
 
 {% block index %}
@@ -33,10 +33,10 @@ layui.use(['laydate'], function(){
 });
 layui.use('layedit', function(){
 	var layedit = layui.layedit;
-	
+
 	layedit.set({
 		uploadImage:{
-			url:"{% url  'imgupload' %}"
+			url:"{% url  'img_upload' %}"
 			,type:'post'
 		}
 	});

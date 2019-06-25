@@ -64,7 +64,7 @@ def asset_details_view(request, asset_id):
     else:
         internet_info = ''
 
-    return render(request, 'AssetManage/assetdetails.html',
+    return render(request, 'AssetManage/asset_details.html',
                   {'asset': asset, 'info': info, 'os_info': os_info, 'internet_info': internet_info,
                    'vuln_status': vuln_status})
 
@@ -88,6 +88,7 @@ def asset_ports(request, asset_id):
     for port in port_list:
         dic = dict()
         dic['id'] = escape(port.id)
+        dic['name'] = escape(port.name)
         dic['port'] = escape(port.port)
         dic['product'] = escape(port.product)
         dic['version'] = escape(port.version)

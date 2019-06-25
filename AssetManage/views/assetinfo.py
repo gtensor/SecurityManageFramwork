@@ -25,7 +25,7 @@ def os_info_update(request, os_id):
     else:
         form = forms.OSInfoForm(instance=os_info)
     return render(request, 'form_update.html',
-                  {'form': form, 'post_url': 'assetosinfoupdate',
+                  {'form': form, 'post_url': 'asset_os_info_update',
                    'argu': os_id, 'error': error})
 
 
@@ -48,5 +48,5 @@ def internet_info_update(request, internet_id):
     else:
         form = forms.InternetInfoForm(instance=internet_info)
     return render(request, 'form_update.html',
-                  {'form': form, 'post_url': 'assetinternetinfoupdate',
+                  {'form': form, 'post_url': 'asset_internet_info_update',
                    'argu': internet_id, 'error': error})

@@ -53,13 +53,13 @@ def taskdetails(request, task_id):
         task = get_object_or_404(models.Task, task_id=task_id)
     else:
         task = get_object_or_404(models.Task, task_user=user, task_id=task_id)
-    return render(request, 'TaskManage/taskdetails.html', {'task': task})
+    return render(request, 'TaskManage/task_details.html', {'task': task})
 
 
 @login_required
 @csrf_protect
 def TaskRequestView(request):
-    return render(request, 'TaskManage/taskrequest.html')
+    return render(request, 'TaskManage/task_request.html')
 
 
 @login_required
@@ -167,7 +167,7 @@ def TaskSync(request):
 @login_required
 @csrf_protect
 def TaskView(request):
-    return render(request, 'TaskManage/tasklist.html')
+    return render(request, 'TaskManage/task_list.html')
 
 
 @login_required

@@ -48,7 +48,7 @@ def vuln_change_status(request,vuln_id):
             form = forms.Vuln_action_form(instance=vuln)
     else:
         error ='请检查参数'
-    return render(request, 'form_update.html', {'form':form, 'post_url': 'vulnfix', 'argu':vuln_id, 'error':error})
+    return render(request, 'form_update.html', {'form':form, 'post_url': 'vuln_fix', 'argu':vuln_id, 'error':error})
 
 
 
@@ -129,7 +129,7 @@ def vulncreate(request,asset_id):
             error = '请检查输入'
     else:
         form = forms.Vuln_edit_form()
-    return render(request, 'form_update.html', {'form':form, 'post_url': 'vulncreate', 'argu':asset_id, 'error':error})
+    return render(request, 'form_update.html', {'form':form, 'post_url': 'vuln_create', 'argu':asset_id, 'error':error})
 
 
 @login_required
@@ -139,14 +139,14 @@ def vulndetails(request,vuln_id):
         vuln = get_object_or_404(models.Vulnerability_scan,vuln_id=vuln_id)
     else:
         vuln = get_object_or_404(models.Vulnerability_scan,vuln_asset__asset_user=user,vuln_id=vuln_id)
-    return render(request,'VulnManage/vulndetails.html',{'vuln':vuln})
+    return render(request, 'VulnManage/vuln_details.html', {'vuln':vuln})
 
 
 
 @login_required
 def vulnview(request):
-    
-    return render(request,'VulnManage/vulnlist.html')
+
+    return render(request, 'VulnManage/vuln_list.html')
 
 
 
@@ -158,19 +158,19 @@ def vulntablelist(request):
     resultdict={}
     page = request.POST.get('page')
     rows = request.POST.get('limit')
-    
+
     key = request.POST.get('key')
     if  not key:
         key=''
-    
+
     leave = request.POST.get('leave')
     if  not leave:
         leave=''
     fix_status = request.POST.get('fix_status')
     if  not fix_status:
         fix_status=''
-    
-    
+
+
     if user.is_superuser:
         vuln_list = models.Vulnerability_scan.objects.filter(
             vuln_asset__asset_key__icontains = key,
@@ -186,7 +186,7 @@ def vulntablelist(request):
             fix_status__icontains = fix_status,
             leave__gte = 1,
             ).order_by('-fix_status','-leave')
-        
+
     total = vuln_list.count()
     vuln_list = paging(vuln_list,rows,page)
     data = []
@@ -207,7 +207,7 @@ def vulntablelist(request):
     resultdict['count']=total
     resultdict['data']=data
     return JsonResponse(resultdict)
-        
+
 
 @login_required
 @csrf_protect
@@ -229,4 +229,4 @@ def vulnfixlist(request):
         error = '操作成功'
     else:
         error ='参数错误'
-    return JsonResponse({'error':error})   
+    return JsonResponse({'error':error})

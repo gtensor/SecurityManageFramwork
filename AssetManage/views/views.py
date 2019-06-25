@@ -156,7 +156,7 @@ def asset_request_list(request):
 
 @login_required
 def asset_request_view(request):
-    return render(request, 'AssetManage/assetrequestlist.html')
+    return render(request, 'AssetManage/asset_request_list.html')
 
 
 @login_required
@@ -185,10 +185,10 @@ def asset_request(request):
                 error = '资产库内无该资产，请使用资产新增'
         else:
             error = '请检查输入'
-        return render(request, 'form_edit.html', {'form': form, 'post_url': 'assetrequest', 'error': error})
+        return render(request, 'form_edit.html', {'form': form, 'post_url': 'asset_request', 'error': error})
     else:
         form = forms.AssetRequestEditForm()
-    return render(request, 'form_edit.html', {'form': form, 'post_url': 'assetrequest'})
+    return render(request, 'form_edit.html', {'form': form, 'post_url': 'asset_request'})
 
 
 @login_required
@@ -242,10 +242,10 @@ def asset_create(request):
             error = '添加成功'
         else:
             error = '非法输入或资产已存在，请进行资产申请'
-        return render(request, 'form_edit.html', {'form': form, 'post_url': 'assetcreate', 'error': error})
+        return render(request, 'form_edit.html', {'form': form, 'post_url': 'asset_create', 'error': error})
     else:
         form = forms.AssetCreateForm()
-    return render(request, 'form_edit.html', {'form': form, 'post_url': 'assetcreate'})
+    return render(request, 'form_edit.html', {'form': form, 'post_url': 'asset_create'})
 
 
 @login_required
@@ -282,7 +282,8 @@ def asset_delete(request):
         for asset_id in asset_id_list:
             if user.is_superuser:
                 asset = get_object_or_404(models.Asset, asset_id=asset_id)
-                asset.asset_status = '2'
+                # asset.asset_status = '2'
+                asset.delete()
             else:
                 asset = get_object_or_404(models.Asset, asset_user=user, asset_id=asset_id)
                 asset.asset_inuse = False
@@ -298,7 +299,7 @@ def asset_view(request):
     area = Area.objects.filter(parent__isnull=True)
     asset_type = models.AssetType.objects.filter(parent__isnull=False)
 
-    return render(request, 'AssetManage/assetlist.html', {'area': area, 'asset_type': asset_type})
+    return render(request, 'AssetManage/asset_list.html', {'area': area, 'asset_type': asset_type})
 
 
 @login_required

@@ -107,7 +107,7 @@ def asset_handover_list(request):
 
 @login_required
 def handoverview(request):
-    return render(request, 'AssetManage/assethandoverlist.html')
+    return render(request, 'AssetManage/asset_handover_list.html')
 
 
 @login_required

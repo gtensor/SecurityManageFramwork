@@ -1,23 +1,23 @@
 # coding:utf-8
-from django.db import models
-from AssetManage.models import Asset, PortInfo
 from django.contrib.auth.models import User
+from django.db import models
 
-
-# Create your models here.
+from AssetManage.models import Asset, PortInfo
 
 
 class Mapped(models.Model):
-    LANip = models.ForeignKey(Asset, related_name='LANip_for_mapped', on_delete=models.CASCADE, verbose_name='内网IP')
-    LANPort = models.ForeignKey(PortInfo, related_name='LANport_for_mapped', on_delete=models.CASCADE,
+    LANip = models.ForeignKey(Asset, related_name='LANip_for_mapped',
+                              on_delete=models.CASCADE, verbose_name='内网IP')
+    LANPort = models.ForeignKey(PortInfo, related_name='LANport_for_mapped',
+                                on_delete=models.CASCADE,
                                 verbose_name='内网端口')
-
-    WANip = models.ForeignKey(Asset, related_name='WANip_for_mapped', on_delete=models.CASCADE, verbose_name='外网IP')
-    WANPort = models.ForeignKey(PortInfo, related_name='WANport_for_mapped', on_delete=models.CASCADE,
+    WANip = models.ForeignKey(Asset, related_name='WANip_for_mapped',
+                              on_delete=models.CASCADE, verbose_name='外网IP')
+    WANPort = models.ForeignKey(PortInfo, related_name='WANport_for_mapped',
+                                on_delete=models.CASCADE,
                                 verbose_name='外网端口')
 
     Domain = models.CharField('域名', max_length=50, blank=True, null=True)
-
     mapped_status = models.BooleanField('是否启用', default=True)
     start_time = models.DateField("开启时间", null=True)
     end_time = models.DateField("关闭时间", null=True)
@@ -32,9 +32,9 @@ class Mapped(models.Model):
     request_user_department = models.CharField('申请部门', max_length=50, null=True, blank=True)
     telephone = models.CharField('联系电话', max_length=50, null=True, blank=True)
 
-    mapped_updatetime = models.DateTimeField('更新时间', auto_now=True)
+    mapped_update_time = models.DateTimeField('更新时间', auto_now=True)
 
     Mapped_user = models.ManyToManyField(User, related_name='mapped_to_user', blank=True)
 
     def __str__(self):
-        return self.asset_key
+        return self.LANip.asset_key

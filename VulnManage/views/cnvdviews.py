@@ -46,7 +46,7 @@ def renew(request):
                 error = '文件错误'
         else:
             form = forms.Cnvd_file_form()
-            return render(request, 'form_edit.html', {'form':form, 'post_url': 'cnvdvulnrenew', 'title': '同步漏洞库'})
+            return render(request, 'form_edit.html', {'form':form, 'post_url': 'cnvd_vuln_renew', 'title': '同步漏洞库'})
     else:
         error = '权限不足'
     return render(request,'error.html',{'error':error})
@@ -55,7 +55,7 @@ def renew(request):
 @login_required
 def cnvdvulndetails(request,cnvdvuln_id):
     vuln = get_object_or_404(models.Vulnerability,id=cnvdvuln_id)
-    return render(request,'VulnManage/cnvdvulndetails.html',{'vuln':vuln})
+    return render(request, 'VulnManage/cnvd_vuln_details.html', {'vuln':vuln})
 
 
 @login_required
@@ -76,12 +76,12 @@ def cnvdvuln_update(request,cnvdvuln_id):
     else:
         error = '权限错误'
         return render(request,'error.html',{'error':error})
-    
+
 
 
 @login_required
 def cnvdvuln_view(request):
-    return render(request,'VulnManage/cnvdvulnlist.html')
+    return render(request, 'VulnManage/cnvd_vuln_list.html')
 
 
 @login_required
@@ -90,21 +90,21 @@ def cnvdvulntablelist(request):
     resultdict={}
     page = request.POST.get('page')
     rows = request.POST.get('limit')
-    
+
     name = request.POST.get('name')
     if  not name:
         name=''
-    
+
     leave = request.POST.get('leave')
     if  not leave:
         leave=''
-    
-    
+
+
     vuln_list = models.Vulnerability.objects.filter(
         Q(cve_id__icontains = name)|
         Q(cnvd_id__icontains = name) | Q(cve_name__icontains = name)
         ).filter(leave__icontains = leave).order_by('-update_data')
-        
+
     total = vuln_list.count()
     vuln_list = paging(vuln_list,rows,page)
     data = []

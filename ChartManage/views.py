@@ -33,7 +33,7 @@ def chartview(request):
         is_danger = True
         
     
-    return render(request,'ChartManage/chartview.html',{'is_asset':is_asset,'is_vuln':is_vuln,'is_danger':is_danger})
+    return render(request, 'ChartManage/chart_view.html', {'is_asset':is_asset, 'is_vuln':is_vuln, 'is_danger':is_danger})
 
 
 

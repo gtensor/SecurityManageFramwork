@@ -113,7 +113,7 @@ def notice_table_list(request):
 
 @login_required
 def notice_view(request):
-    return render(request, 'NoticeManage/noticelist.html')
+    return render(request, 'NoticeManage/notice_list.html')
 
 
 def notice_add(user, data):

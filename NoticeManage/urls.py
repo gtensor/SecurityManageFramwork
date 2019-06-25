@@ -1,17 +1,13 @@
-#coding:utf-8
-'''
-Created on 2018年5月14日
+# coding:utf-8
 
-@author: yuguanc
-'''
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('',views.notice_view,name='noticeview'),
-    path('list/',views.notice_table_list,name='noticelist'),
-    path('action/',views.notice_action,name='noticeaction'),
-    path('readall/',views.notice_readall,name='noticereadall'),
-    path('count/',views.notice_count,name='noticecount'),
-    path('read/<str:notice_id>/',views.notice_read,name='noticeread'),
+    path('', views.notice_view, name='notice_view'),
+    path('list/', views.notice_table_list, name='notice_list'),
+    path('action/', views.notice_action, name='notice_action'),
+    path('readall/', views.notice_readall, name='notice_read_all'),
+    path('count/', views.notice_count, name='notice_count'),
+    path('read/<str:notice_id>/', views.notice_read, name='notice_read'),
 ]

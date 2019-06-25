@@ -1,10 +1,5 @@
 # coding:utf-8
 
-'''
-Created on 2018年5月23日
-
-@author: yuguanc
-'''
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import JsonResponse
@@ -18,35 +13,35 @@ from . import models, forms
 
 @login_required
 @csrf_protect
-def Mappeddetails(request, mapped_id):
+def mapped_details(request, mapped_id):
     mapped = get_object_or_404(models.Mapped, id=mapped_id)
-    return render(request, 'MappedManage/mappeddetails.html', {'mapped': mapped})
+    return render(request, 'MappedManage/mapped_details.html', {'mapped': mapped})
 
 
 @login_required
 @csrf_protect
-def Mappedupdate(request, mapped_id):
+def mapped_update(request, mapped_id):
     error = ''
     mapped = get_object_or_404(models.Mapped, id=mapped_id)
     if request.method == 'POST':
-        form = forms.Mapped_update_form(request.POST, instance=mapped)
+        form = forms.MappedUpdateForm(request.POST, instance=mapped)
         if form.is_valid():
             form.save()
             error = '保存成功'
         else:
             error = '保存失败'
     else:
-        form = forms.Mapped_update_form(instance=mapped)
+        form = forms.MappedUpdateForm(instance=mapped)
     return render(request, 'form_update.html',
-                  {'form': form, 'post_url': 'mappedupdate', 'argu': mapped_id, 'error': error})
+                  {'form': form, 'post_url': 'mapped_update', 'argu': mapped_id, 'error': error})
 
 
 @login_required
 @csrf_protect
-def MappedCreate(request):
+def mapped_create(request):
     error = ''
     if request.method == 'POST':
-        form = forms.Mapped_edit_form(request.POST)
+        form = forms.MappedEditForm(request.POST)
         if form.is_valid():
             LANip = form.cleaned_data['LANip']
             LANip = get_object_or_404(models.Asset, asset_key=LANip)
@@ -108,20 +103,20 @@ def MappedCreate(request):
         else:
             error = '请检查输入'
     else:
-        form = forms.Mapped_edit_form()
-    return render(request, 'form_edit.html', {'form': form, 'post_url': 'mappedcreate', 'error': error})
+        form = forms.MappedEditForm()
+    return render(request, 'form_edit.html', {'form': form, 'post_url': 'mapped_create', 'error': error})
 
 
 @login_required
-def Mappedview(request):
-    return render(request, 'MappedManage/mappedview.html')
+def mapped_view(request):
+    return render(request, 'MappedManage/mapped_view.html')
 
 
 @login_required
 @csrf_protect
-def MappedTableList(request):
+def mapped_table_list(request):
     # user= request.user
-    resultdict = {}
+    result_dict = {}
     page = request.POST.get('page')
     rows = request.POST.get('limit')
 
@@ -138,7 +133,7 @@ def MappedTableList(request):
     mappedlist = models.Mapped.objects.filter(
         Q(LANip__asset_key__icontains=name) | Q(WANip__asset_key__icontains=name)
         | Q(request_user_num__icontains=name) | Q(request_email__icontains=name)
-    ).filter(mapped_status__in=status).order_by('mapped_updatetime')
+    ).filter(mapped_status__in=status).order_by('mapped_update_time')
     total = mappedlist.count()
     mappedlist = paging(mappedlist, rows, page)
     data = []
@@ -161,8 +156,8 @@ def MappedTableList(request):
         dic['request_email'] = escape(item.request_email)
         dic['action_email'] = escape(item.action_email)
         data.append(dic)
-    resultdict['code'] = 0
-    resultdict['msg'] = "用户列表"
-    resultdict['count'] = total
-    resultdict['data'] = data
-    return JsonResponse(resultdict)
+    result_dict['code'] = 0
+    result_dict['msg'] = "用户列表"
+    result_dict['count'] = total
+    result_dict['data'] = data
+    return JsonResponse(result_dict)

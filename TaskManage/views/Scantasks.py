@@ -86,7 +86,7 @@ def scan_task(request, action='post'):
     else:
         error = '请检查参数'
         return render(request, 'error.html', {'error': error})
-    return render(request, 'TaskManage/taskupdate.html',
+    return render(request, 'TaskManage/task_update.html',
                   {'form': form, 'post_url': 'taskscanchoice', 'argu': 'post', 'error': error})
 
 
@@ -169,7 +169,7 @@ def ScanAll(request):
                 error = '扫描目标不在资产列表中'
     else:
         form = forms.TaskCreateForm()
-    return render(request, 'TaskManage/taskedit.html', {'form': form, 'post_url': 'scantask', 'error': error})
+    return render(request, 'TaskManage/task_edit.html', {'form': form, 'post_url': 'scantask', 'error': error})
 
 
 def sys_action(request, task, action):

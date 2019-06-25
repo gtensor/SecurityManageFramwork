@@ -1,4 +1,4 @@
-{% extends "index.html" %} 
+{% extends "index.html" %}
 <meta charset="UTF-8">
 
 {% block index %}
@@ -44,12 +44,12 @@
 	{% if user.is_superuser %}
 	<xblock>
 		<div class="UserTable">
-		    <button class="layui-btn" onclick="x_admin_show('添加资产','{% url 'articlecreate' %}')"><i class="layui-icon"></i>添加文章</button>
+		    <button class="layui-btn" onclick="x_admin_show('添加资产','{% url 'article_create' %}')"><i class="layui-icon"></i>添加文章</button>
 		</div>
 	</xblock>
 	{% endif %}
-	
-	<table class="layui-hide" id="article_table" lay-filter="article"></table> 
+
+	<table class="layui-hide" id="article_table" lay-filter="article"></table>
 </div>
 <script>
 var csrf = $('input[name="csrfmiddlewaretoken"]').val();
@@ -59,7 +59,7 @@ layui.use('table', function(){
   //方法级渲染
   table.render({
     elem: '#article_table'
-    ,url: "{% url 'articlelist' %}"
+    ,url: "{% url 'article_list' %}"
     ,method: 'post'
     ,where: {'csrfmiddlewaretoken':csrf}
     ,cols: [[
@@ -77,15 +77,15 @@ layui.use('table', function(){
     	none:'暂无相关数据'
     }
   });
-  
+
   table.on('tool(article)', function(obj){
     var data = obj.data.article_id;
     if(obj.event === 'article'){
-    	url = "{% url 'articledetails' '0' %}";
+    	url = "{% url 'article_details' '0' %}";
     	url = url.replace(/0/,data);
     	x_admin_show('资产详情',url);
     }else if(obj.event === 'delete'){
-    	url = "{% url 'articledelete' 'key' %}";
+    	url = "{% url 'article_delete' 'key' %}";
     	url = url.replace(/key/,data);
     	layer.confirm('该操作为敏感操作<br>点击确认，将删除该文章',function(index){
 		    $.get(url,function(res){
@@ -96,7 +96,7 @@ layui.use('table', function(){
 	    	});
     	})
     } else if(obj.event === 'revoke'){
-    	url = "{% url 'articlerevoke' 'key' %}";
+    	url = "{% url 'article_revoke' 'key' %}";
     	url = url.replace(/key/,data);
     	layer.confirm('该操作为敏感操作<br>点击确认，撤回该文章',function(index){
 		    $.get(url,function(res){
@@ -107,7 +107,7 @@ layui.use('table', function(){
 	    	});
     	})
     }else if(obj.event === 'public'){
-    	url = "{% url 'articlepublic' 'key' %}";
+    	url = "{% url 'article_public' 'key' %}";
     	url = url.replace(/key/,data);
     	layer.confirm('该操作为敏感操作<br>点击确认，发布该文章',function(index){
 		    $.get(url,function(res){
@@ -118,18 +118,18 @@ layui.use('table', function(){
 	    	});
     	})
     }else if(obj.event === 'edit'){
-    	url = "{% url 'articleupdate' 'key' %}";
+    	url = "{% url 'article_update' 'key' %}";
     	url = url.replace(/key/,data);
     	x_admin_show('资产详情',url);
     } else if(obj.event === 'detail'){
-    	url = "{% url 'articledetails' '0' %}";
+    	url = "{% url 'article_details' '0' %}";
     	url = url.replace(/0/,data);
     	window.open(url);
     }
   });
-  
-  
-  
+
+
+
   var $ = layui.$, active = {
 	reload: function(){
       //执行重载

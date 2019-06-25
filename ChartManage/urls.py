@@ -1,20 +1,13 @@
-#coding:utf-8
-'''
-Created on 2018年5月14日
+# coding:utf-8
 
-@author: yuguanc
-'''
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('',views.chartview,name='chartview'),
-    
-    path('assettype/',views.getassettype,name='chartassettype'),
-    path('vulnleave/',views.getvulnleave,name='chartvulnleave'),
-    path('vulnstatus/',views.getvulnstatus,name='chartvulnstatus'),
-     path('vulnname/',views.getvulnname,name='chartvulnname'),
-    
-    path('getdatemonth/',views.getdatemonth,name='chartgetdatemonth'),
-    
+    path('', views.chartview, name='chart_view'),
+    path('assettype/', views.getassettype, name='chart_asset_type'),
+    path('vulnleave/', views.getvulnleave, name='chart_vuln_leave'),
+    path('vulnstatus/', views.getvulnstatus, name='chart_vuln_status'),
+    path('vulnname/', views.getvulnname, name='chart_vuln_name'),
+    path('getdatemonth/', views.getdatemonth, name='chart_get_date_month'),
 ]

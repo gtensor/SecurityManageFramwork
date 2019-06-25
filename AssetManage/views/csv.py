@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import HttpResponse, render
+import codecs
+import csv
+import os
+import time
+import uuid
+
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_protect
-import csv, codecs, uuid, os, time
 from django.contrib.auth.models import User
+from django.shortcuts import HttpResponse, render
+from django.views.decorators.csrf import csrf_protect
+
 from AssetManage.models import Asset, AssetType, OSInfo, InternetInfo
-from VulnManage.models import Vulnerability_scan
-from SeMFSetting import forms
-from SeMF.settings import MEDIA_ROOT
-from SeMFSetting.models import files
 from NoticeManage.views import notice_add
+from SeMF.settings import MEDIA_ROOT
+from SeMFSetting import forms
+from SeMFSetting.models import files
+from VulnManage.models import Vulnerability_scan
 
 
 def vuln_upload(user_id, file_psth, name):
@@ -266,7 +272,7 @@ def file_update(request):
             error = '检查输入'
     else:
         form = forms.File()
-    return render(request, 'form_edit.html', {'form': form, 'post_url': 'createuploadcsv', 'error': error})
+    return render(request, 'form_edit.html', {'form': form, 'post_url': 'create_upload_csv', 'error': error})
 
 
 @login_required
